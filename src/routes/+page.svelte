@@ -1,18 +1,15 @@
 <script lang="ts">
 	import Uploader from "$lib/components/visual/Uploader.svelte";
 	import { converters } from "$lib/converters";
-
-	let conversionTypes = $state<string[]>([]);
-	let downloadFns = $state<(() => void)[]>([]);
-	let files = $state<File[]>();
+	import { files } from "$lib/store/index.svelte";
 
 	$effect(() => {
 		$inspect(files);
 	});
 
 	const convertAllFiles = async () => {
-		const promises = files?.map(async (file, i) => {
-			let conversionType = conversionTypes[i];
+		const promises = files.files?.map(async (file, i) => {
+			let conversionType = files.conversionTypes[i];
 			const converter = converters[0];
 			const convertedFile = await converter.convert(
 				{
@@ -21,7 +18,7 @@
 				},
 				conversionType,
 			);
-			downloadFns[i] = () => {
+			files.downloadFns[i] = () => {
 				const url = URL.createObjectURL(
 					new Blob([convertedFile.buffer]),
 				);
@@ -39,9 +36,7 @@
 	};
 </script>
 
-<div class="w-full h-full flex items-center justify-center">
-	<Uploader bind:files />
-</div>
+<Uploader bind:files={files.files} />
 
 <style>
 	/* for this page specifically */

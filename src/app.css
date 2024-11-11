@@ -18,5 +18,5 @@
 }
 
 body {
-	@apply text-foreground bg-background font-body;
+	@apply text-foreground bg-background font-body overflow-x-hidden;
 }
