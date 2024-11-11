@@ -12,22 +12,17 @@
 	let shouldGoBack = $state(false);
 
 	const links = $derived<{
-		[key: string]: {
-			href: string;
-			alert?: boolean;
-		};
+		[key: string]: string;
 	}>({
-		Upload: { href: "/" },
+		Upload: "/",
 		[files.files.length > 0
 			? `Convert ${files.files.length} file${files.files.length > 1 ? "s" : ""}`
-			: `Convert`]: { href: "/convert", alert: files.shouldShowAlert },
+			: `Convert`]: "/convert",
 	});
 
 	const linkCount = $derived(Object.keys(links).length);
 	const linkIndex = $derived(
-		Object.keys(links).findIndex(
-			(link) => links[link].href === data.pathname,
-		),
+		Object.keys(links).findIndex((link) => links[link] === data.pathname),
 	);
 </script>
 
@@ -49,14 +44,14 @@
 				onclick={() => {
 					const keys = Object.keys(links);
 					const currentIndex = keys.findIndex(
-						(key) => links[key].href === data.pathname,
+						(key) => links[key] === data.pathname,
 					);
 					const nextIndex = keys.findIndex(
 						(key) => links[key] === link,
 					);
 					shouldGoBack = nextIndex < currentIndex;
 					console.log({ shouldGoBack });
-					goto(link.href);
+					goto(link);
 				}}
 			>
 				<span class="mix-blend-difference invert">
