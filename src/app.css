@@ -21,4 +21,5 @@
 
 body {
 	@apply text-foreground bg-background font-body overflow-x-hidden;
+	padding-left: calc(100vw - 100%);
 }
