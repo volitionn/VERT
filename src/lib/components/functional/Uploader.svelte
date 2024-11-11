@@ -8,6 +8,7 @@
 
 	interface Props {
 		files: File[] | undefined;
+		onupload?: () => void;
 	}
 
 	$effect(() => {
@@ -18,7 +19,7 @@
 	let fileInput = $state<HTMLInputElement>();
 	let dragOver = $state(false);
 
-	let { files = $bindable() }: Props = $props();
+	let { files = $bindable(), onupload }: Props = $props();
 
 	function upload() {
 		if (!fileInput) return;
@@ -62,6 +63,7 @@
 		if (!fileInput.files) return;
 		if (!files) files = Array.from(fileInput.files);
 		else files.push(...Array.from(fileInput.files));
+		onupload?.();
 	}
 </script>
 

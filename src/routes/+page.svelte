@@ -1,11 +1,8 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import Uploader from "$lib/components/functional/Uploader.svelte";
 	import { converters } from "$lib/converters";
 	import { files } from "$lib/store/index.svelte";
-
-	$effect(() => {
-		$inspect(files);
-	});
 
 	const convertAllFiles = async () => {
 		const promises = files.files?.map(async (file, i) => {
@@ -36,7 +33,10 @@
 	};
 </script>
 
-<Uploader bind:files={files.files} />
+<Uploader
+	bind:files={files.files}
+	onupload={() => files.files.length > 0 && goto("/convert")}
+/>
 
 <style>
 	/* for this page specifically */

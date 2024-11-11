@@ -5,6 +5,7 @@
 	import { quintOut } from "svelte/easing";
 	import { files } from "$lib/store/index.svelte";
 	import Logo from "$lib/components/visual/svg/Logo.svelte";
+	import { fade, fly } from "svelte/transition";
 	let { children, data } = $props();
 
 	let navWidth = $state(1);
@@ -52,7 +53,7 @@
 			></div>
 			{#each Object.entries(links) as [name, link] (link)}
 				<button
-					class="w-1/2 h-full flex items-center justify-center rounded-xl relative font-display"
+					class="w-1/2 h-full flex items-center justify-center rounded-xl relative font-display overflow-hidden"
 					onclick={() => {
 						const keys = Object.keys(links);
 						const currentIndex = keys.findIndex(
@@ -66,9 +67,25 @@
 						goto(link);
 					}}
 				>
-					<span class="mix-blend-difference invert">
-						{name}
-					</span>
+					<div class="grid grid-cols-1 grid-rows-1">
+						{#key name}
+							<span
+								class="mix-blend-difference invert col-start-1 row-start-1"
+								in:fly={{
+									duration,
+									easing: quintOut,
+									y: -50,
+								}}
+								out:fly={{
+									duration,
+									easing: quintOut,
+									y: 50,
+								}}
+							>
+								{name}
+							</span>
+						{/key}
+					</div>
 				</button>
 			{/each}
 		</div>
