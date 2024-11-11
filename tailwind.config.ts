@@ -8,7 +8,7 @@ export default {
 		colors: {
 			background: "var(--bg)",
 			foreground: "var(--fg)",
-			foregroundMuted: "var(--fg-muted)",
+			"foreground-muted": "var(--fg-muted)",
 		},
 	},
 

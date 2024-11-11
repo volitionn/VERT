@@ -13,7 +13,7 @@
 >
 	<Upload />
 	<h2>Drop or click to upload files</h2>
-	<p class="text-foregroundMuted">the</p>
+	<p class="text-foreground-muted">the</p>
 </div>
 
 <input type="file" class="hidden" bind:files />
