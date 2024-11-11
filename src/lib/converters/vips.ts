@@ -15,11 +15,8 @@ export class VipsConverter extends Converter {
 		".tiff",
 		".tif",
 		".gif",
-		".svg",
-		".webp",
 		".jfif",
-		".ico",
-		".bmp",
+		".avif",
 	];
 
 	constructor() {
