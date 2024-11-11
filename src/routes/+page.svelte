@@ -4,14 +4,14 @@
 
 	let conversionTypes = $state<string[]>([]);
 	let downloadFns = $state<(() => void)[]>([]);
-	let files = $state<FileList>();
-	let iterableFiles = $derived.by(() => {
-		if (!files) return [];
-		return Array.from(files);
+	let files = $state<File[]>();
+
+	$effect(() => {
+		$inspect(files);
 	});
 
 	const convertAllFiles = async () => {
-		const promises = iterableFiles.map(async (file, i) => {
+		const promises = files?.map(async (file, i) => {
 			let conversionType = conversionTypes[i];
 			const converter = converters[0];
 			const convertedFile = await converter.convert(
@@ -35,7 +35,7 @@
 				URL.revokeObjectURL(url);
 			};
 		});
-		await Promise.all(promises);
+		if (promises) await Promise.all(promises);
 	};
 </script>
 

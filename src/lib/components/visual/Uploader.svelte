@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { Upload } from "lucide-svelte";
 	import clsx from "clsx";
+	import { onMount } from "svelte";
 
-	let fileList = $state<FileList | undefined>();
+	let fileList = $state<FileList>();
+	let dragBtn = $state<HTMLButtonElement>();
 
 	interface Props {
 		files: File[] | undefined;
@@ -23,16 +25,48 @@
 		fileInput.click();
 	}
 
+	onMount(() => {
+		const handler = (e: Event) => e.preventDefault();
+		if (!dragBtn) return;
+		dragBtn.addEventListener("dragenter", handler);
+		dragBtn.addEventListener("dragstart", handler);
+		dragBtn.addEventListener("dragend", handler);
+		dragBtn.addEventListener("dragleave", handler);
+		dragBtn.addEventListener("dragover", handler);
+		dragBtn.addEventListener("drag", handler);
+		dragBtn.addEventListener("drop", handler);
+
+		return () => {
+			if (!dragBtn) return;
+			dragBtn.removeEventListener("dragenter", handler);
+			dragBtn.removeEventListener("dragstart", handler);
+			dragBtn.removeEventListener("dragend", handler);
+			dragBtn.removeEventListener("dragleave", handler);
+			dragBtn.removeEventListener("dragover", handler);
+			dragBtn.removeEventListener("drag", handler);
+			dragBtn.removeEventListener("drop", handler);
+		};
+	});
+
 	function drop(event: DragEvent) {
 		event.preventDefault();
 		dragOver = false;
 		if (!event.dataTransfer) return;
 		if (!files) files = Array.from(event.dataTransfer.files);
 		else files.push(...Array.from(event.dataTransfer.files));
+		return true;
+	}
+
+	function addFiles() {
+		if (!fileInput) return;
+		if (!fileInput.files) return;
+		if (!files) files = Array.from(fileInput.files);
+		else files.push(...Array.from(fileInput.files));
 	}
 </script>
 
 <button
+	bind:this={dragBtn}
 	onclick={upload}
 	ondragover={() => (dragOver = true)}
 	ondragleave={() => (dragOver = false)}
@@ -60,7 +94,7 @@
 <input
 	type="file"
 	class="hidden"
-	bind:files={fileList}
 	bind:this={fileInput}
+	onchange={addFiles}
 	multiple
 />
