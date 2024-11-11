@@ -1,5 +1,10 @@
-import { init } from "./util/magick";
+import { browser } from "$app/environment";
+import VipsWorker from "$lib/workers/vips?worker";
 
-export async function load({ fetch }) {
-	await init(fetch);
-}
+export const load = () => {
+	if (!browser) return;
+	const worker = new VipsWorker();
+	worker.onmessage = (e) => {
+		console.log(e.data);
+	};
+};
