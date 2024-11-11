@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Uploader from "$lib/components/visual/Uploader.svelte";
 	import { converters } from "$lib/converters/index.svelte";
 
 	let files = $state<FileList>();
@@ -8,4 +9,4 @@
 	});
 </script>
 
-<input type="file" bind:files />
+<Uploader bind:files />
