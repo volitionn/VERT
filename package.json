@@ -34,6 +34,7 @@
 	"dependencies": {
 		"@imagemagick/magick-wasm": "^0.0.31",
 		"lucide-svelte": "^0.456.0",
+		"svelte-adapter-bun": "^0.5.2",
 		"wasm-vips": "^0.0.11"
 	}
 }
