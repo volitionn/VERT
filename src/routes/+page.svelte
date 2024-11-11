@@ -39,55 +39,8 @@
 	};
 </script>
 
-<div class="flex flex-col items-center">
-	<div class="max-w-screen-lg w-full">
-		<div class="h-80 justify-self-center mt-40">
-			<Uploader bind:files />
-		</div>
-		<div class="flex flex-col items-center">
-			{#each iterableFiles as file, i}
-				<div
-					class="flex items-center w-full max-w-screen-lg border-2 border-solid border-foreground rounded-xl px-4 py-2 mt-4"
-				>
-					<div class="flex items-center flex-grow">
-						{file.name}
-					</div>
-					<div class="flex gap-4 flex-shrink-0">
-						{#if downloadFns[i]}
-							<button
-								class="px-4 py-2 border-2 border-solid border-foreground rounded-xl"
-								onclick={downloadFns[i]}
-							>
-								Download
-							</button>
-						{/if}
-						<!-- <input
-							type="text"
-							class="border-2 border-solid border-foreground rounded-xl px-4 py-2 focus:!outline-none"
-							bind:value={conversionTypes[i]}
-							placeholder="jpeg"
-						/> -->
-						<select
-							class="border-2 border-solid border-foreground rounded-xl px-4 py-2 focus:!outline-none"
-							bind:value={conversionTypes[i]}
-						>
-							{#each converters[0].supportedFormats as conversionType}
-								<option value={conversionType}
-									>{conversionType}</option
-								>
-							{/each}
-						</select>
-					</div>
-				</div>
-			{/each}
-			<button
-				class="mt-4 px-4 py-2 border-2 border-solid border-foreground rounded-xl"
-				onclick={convertAllFiles}
-			>
-				Convert
-			</button>
-		</div>
-	</div>
+<div class="w-full h-full flex items-center justify-center">
+	<Uploader bind:files />
 </div>
 
 <style>
