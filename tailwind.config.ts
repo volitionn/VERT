@@ -10,10 +10,15 @@ export default {
 				foreground: "var(--fg)",
 				"foreground-muted": "var(--fg-muted)",
 				"foreground-muted-alt": "var(--fg-muted-alt)",
+				"accent-background": "var(--accent-bg)",
+				"accent-foreground": "var(--accent-fg)",
 			},
 			fontFamily: {
 				display: "var(--font-display)",
 				body: "var(--font-body)",
+			},
+			blur: {
+				xs: "2px",
 			},
 		},
 	},

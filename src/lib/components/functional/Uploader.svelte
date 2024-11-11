@@ -71,24 +71,32 @@
 	ondragover={() => (dragOver = true)}
 	ondragleave={() => (dragOver = false)}
 	class={clsx(
-		"w-full h-80 max-w-screen-lg flex items-center justify-center cursor-pointer flex-col",
+		"file-uploader",
+		"w-full h-80 flex items-center justify-center cursor-pointer",
 		"border-2 border-solid border-foreground-muted-alt rounded-2xl",
 		"hover:scale-95 hover:opacity-70 transition-all duration-150 ease-out",
 		{
-			"scale-95 opacity-70": dragOver,
+			"scale-95 opacity-70 blur-xs": dragOver,
 		},
 	)}
+	class:_drag-over={dragOver}
 	ondrop={drop}
 >
 	<div
-		class="size-16 rounded-full text-background bg-foreground flex items-center justify-center"
+		class="file-uploader-center flex items-center justify-center flex-col transition-all duration-150 ease-out"
 	>
-		<Upload class="size-8" />
+		<div
+			class="size-16 rounded-full text-accent-foreground bg-accent-background flex items-center justify-center"
+		>
+			<Upload class="size-8" />
+		</div>
+		<h2 class="font-display text-2xl mt-6">
+			Drop or click to upload files
+		</h2>
+		<p class="text-foreground-muted mt-4">
+			All processing is done on your device. No file or size limit.
+		</p>
 	</div>
-	<h2 class="font-display text-2xl mt-6">Drop or click to upload files</h2>
-	<p class="text-foreground-muted mt-4">
-		All processing is done on your device. No file or size limit.
-	</p>
 </button>
 
 <input
@@ -98,3 +106,10 @@
 	onchange={addFiles}
 	multiple
 />
+
+<style>
+	.file-uploader:hover .file-uploader-center,
+	.file-uploader._drag-over .file-uploader-center {
+		@apply scale-105;
+	}
+</style>

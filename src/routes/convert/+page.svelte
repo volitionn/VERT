@@ -13,14 +13,20 @@
 	{/if}
 	{#each files.files as file, i}
 		<div
-			class="flex items-center w-full max-w-screen-lg border-2 border-solid border-foreground-muted-alt rounded-xl px-4 py-2"
+			class="flex items-center w-full border-2 border-solid border-foreground-muted-alt rounded-xl pl-4 pr-2 py-2"
 		>
 			<div class="flex items-center flex-grow">
 				{file.name}
 			</div>
-			<div class="flex gap-4 flex-shrink-0">
+			<div class="flex items-center gap-2 flex-shrink-0">
+				<span>from</span>
+				<span
+					class="py-2 px-3 font-display bg-foreground text-background rounded-xl"
+					>.{file.name.split(".").slice(-1)}</span
+				>
+				<span>to</span>
 				<select
-					class="border-2 border-solid border-foreground-muted-alt rounded-xl px-4 py-2 focus:!outline-none"
+					class="font-display border-2 border-solid border-foreground-muted-alt rounded-xl p-2 focus:!outline-none"
 					bind:value={files.conversionTypes[i]}
 				>
 					{#each converters[0].supportedFormats as conversionType}

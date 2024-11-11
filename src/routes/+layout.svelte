@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import "../app.css";
 	import { goto } from "$app/navigation";
-	import clsx from "clsx";
-	import { blur, duration, transition } from "$lib/animation";
+	import { blur, duration } from "$lib/animation";
 	import { quintOut } from "svelte/easing";
 	import { files } from "$lib/store/index.svelte";
+	import Logo from "$lib/components/visual/svg/Logo.svelte";
 	let { children, data } = $props();
 
 	let navWidth = $state(1);
@@ -18,6 +17,7 @@
 		[files.files.length > 0
 			? `Convert ${files.files.length} file${files.files.length > 1 ? "s" : ""}`
 			: `Convert`]: "/convert",
+		About: "/about",
 	});
 
 	const linkCount = $derived(Object.keys(links).length);
@@ -26,41 +26,54 @@
 	);
 </script>
 
-<div class="w-full h-full flex items-center pt-72 flex-col gap-4">
+<div class="w-full h-full flex items-center pt-48 flex-col gap-10">
 	<div
-		bind:clientWidth={navWidth}
-		class="bg-background relative w-full h-16 max-w-screen-lg border-2 p-1 border-solid border-foreground-muted-alt rounded-2xl flex"
+		class="w-full max-w-screen-lg p-1 border-solid border-2 rounded-2xl border-foreground-muted-alt grid"
+		style="grid-template-columns: auto 1fr"
 	>
 		<div
-			class="absolute pointer-events-none top-1 bg-foreground h-[calc(100%-8px)] rounded-xl"
-			style="width: {navWidth / linkCount - 8}px; left: {(navWidth /
-				linkCount) *
-				linkIndex +
-				4}px; transition: {duration - 200}ms ease left;"
-		></div>
-		{#each Object.entries(links) as [name, link] (link)}
-			<button
-				class="w-1/2 h-full flex items-center justify-center rounded-xl relative"
-				onclick={() => {
-					const keys = Object.keys(links);
-					const currentIndex = keys.findIndex(
-						(key) => links[key] === data.pathname,
-					);
-					const nextIndex = keys.findIndex(
-						(key) => links[key] === link,
-					);
-					shouldGoBack = nextIndex < currentIndex;
-					console.log({ shouldGoBack });
-					goto(link);
-				}}
-			>
-				<span class="mix-blend-difference invert">
-					{name}
-				</span>
-			</button>
-		{/each}
+			class="px-4 m-1 mr-3 flex items-center bg-accent-background fill-accent-foreground rounded-xl"
+		>
+			<div class="h-6">
+				<Logo />
+			</div>
+		</div>
+
+		<div
+			bind:clientWidth={navWidth}
+			class="w-full flex bg-background relative h-16"
+		>
+			<div
+				class="absolute pointer-events-none top-1 bg-foreground h-[calc(100%-8px)] rounded-xl"
+				style="width: {navWidth / linkCount - 8}px; left: {(navWidth /
+					linkCount) *
+					linkIndex +
+					4}px; transition: {duration - 200}ms ease left;"
+			></div>
+			{#each Object.entries(links) as [name, link] (link)}
+				<button
+					class="w-1/2 h-full flex items-center justify-center rounded-xl relative font-display"
+					onclick={() => {
+						const keys = Object.keys(links);
+						const currentIndex = keys.findIndex(
+							(key) => links[key] === data.pathname,
+						);
+						const nextIndex = keys.findIndex(
+							(key) => links[key] === link,
+						);
+						shouldGoBack = nextIndex < currentIndex;
+						console.log({ shouldGoBack });
+						goto(link);
+					}}
+				>
+					<span class="mix-blend-difference invert">
+						{name}
+					</span>
+				</button>
+			{/each}
+		</div>
 	</div>
-	<div class="w-full grid grid-cols-1 grid-rows-1 relative">
+	<div class="w-full max-w-screen-lg grid grid-cols-1 grid-rows-1 relative">
 		{#key data.pathname}
 			<div class="w-full">
 				<div
