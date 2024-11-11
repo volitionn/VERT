@@ -35,6 +35,7 @@
 		"@fontsource/azeret-mono": "^5.1.0",
 		"@fontsource/lexend": "^5.1.1",
 		"@imagemagick/magick-wasm": "^0.0.31",
+		"clsx": "^2.1.1",
 		"lucide-svelte": "^0.456.0",
 		"svelte-adapter-bun": "^0.5.2",
 		"wasm-vips": "^0.0.11"

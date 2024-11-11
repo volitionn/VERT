@@ -1,9 +1,17 @@
 <script lang="ts">
 	import { Upload } from "lucide-svelte";
+	import clsx from "clsx";
+
+	let fileList = $state<FileList | undefined>();
 
 	interface Props {
-		files: FileList | undefined;
+		files: File[] | undefined;
 	}
+
+	$effect(() => {
+		if (!fileList) return;
+		files = Array.from(fileList);
+	});
 
 	let fileInput = $state<HTMLInputElement>();
 	let dragOver = $state(false);
@@ -14,14 +22,27 @@
 		if (!fileInput) return;
 		fileInput.click();
 	}
+
+	function drop(event: DragEvent) {
+		event.preventDefault();
+		dragOver = false;
+		if (!event.dataTransfer) return;
+		if (!files) files = Array.from(event.dataTransfer.files);
+		else files.push(...Array.from(event.dataTransfer.files));
+	}
 </script>
 
 <button
 	onclick={upload}
 	ondragover={() => (dragOver = true)}
 	ondragleave={() => (dragOver = false)}
-	class="file-uploader"
-	class:_drag-over={dragOver}
+	class={clsx(
+		"w-full h-80 max-w-screen-lg flex items-center justify-center cursor-pointer flex-col border-2 border-solid border-foreground-muted-alt rounded-2xl hover:scale-95 hover:opacity-70 transition-all duration-150 ease-out",
+		{
+			"scale-95 opacity-70": dragOver,
+		},
+	)}
+	ondrop={drop}
 >
 	<div
 		class="size-16 rounded-full text-background bg-foreground flex items-center justify-center"
@@ -34,16 +55,10 @@
 	</p>
 </button>
 
-<input type="file" class="hidden" bind:files bind:this={fileInput} multiple />
-
-<style>
-	.file-uploader {
-		@apply w-full h-80 max-w-screen-lg flex items-center justify-center cursor-pointer
-			flex-col border-2 border-solid border-foreground-muted-alt rounded-2xl
-			hover:scale-95 hover:opacity-70 transition-all duration-150 ease-out;
-	}
-
-	.file-uploader._drag-over {
-		@apply scale-95 opacity-70;
-	}
-</style>
+<input
+	type="file"
+	class="hidden"
+	bind:files={fileList}
+	bind:this={fileInput}
+	multiple
+/>
