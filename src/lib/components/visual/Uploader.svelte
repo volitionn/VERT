@@ -8,12 +8,12 @@
 	let { files = $bindable() }: Props = $props();
 </script>
 
-<div class="flex items-center justify-center h-full">
-	<div
-		class="flex items-center justify-center border-2 border-solid border-black w-full max-w-screen-lg h-80"
-	>
-		<Upload />
-	</div>
+<div
+	class="flex items-center justify-center flex-col border-2 border-solid border-foreground rounded-xl w-full max-w-screen-lg h-80"
+>
+	<Upload />
+	<h2>Drop or click to upload files</h2>
+	<p class="text-foregroundMuted">the</p>
 </div>
 
 <input type="file" class="hidden" bind:files />

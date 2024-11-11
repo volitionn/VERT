@@ -4,4 +4,13 @@
 	let files = $state<FileList>();
 </script>
 
-<Uploader bind:files />
+<div class="flex items-center justify-center h-full">
+	<Uploader bind:files />
+</div>
+
+<style>
+	/* for this page specifically */
+	:global(html, body) {
+		height: 100%;
+	}
+</style>

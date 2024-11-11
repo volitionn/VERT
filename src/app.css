@@ -2,7 +2,12 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-html,
+:root {
+	--bg: hsl(0, 0%, 100%);
+	--fg: hsl(0, 0%, 10%);
+	--fg-muted: hsl(0, 0%, 40%);
+}
+
 body {
-	height: 100%;
+	@apply text-foreground bg-background;
 }

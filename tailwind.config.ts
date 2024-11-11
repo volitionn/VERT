@@ -5,6 +5,11 @@ export default {
 
 	theme: {
 		extend: {},
+		colors: {
+			background: "var(--bg)",
+			foreground: "var(--fg)",
+			foregroundMuted: "var(--fg-muted)",
+		},
 	},
 
 	plugins: [],
