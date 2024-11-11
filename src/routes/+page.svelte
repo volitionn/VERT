@@ -5,7 +5,9 @@
 </script>
 
 <div class="flex items-center justify-center h-full">
-	<Uploader bind:files />
+	<div class="w-full max-w-screen-lg h-80">
+		<Uploader bind:files />
+	</div>
 </div>
 
 <style>
