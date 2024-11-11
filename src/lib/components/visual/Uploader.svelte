@@ -37,7 +37,9 @@
 	ondragover={() => (dragOver = true)}
 	ondragleave={() => (dragOver = false)}
 	class={clsx(
-		"w-full h-80 max-w-screen-lg flex items-center justify-center cursor-pointer flex-col border-2 border-solid border-foreground-muted-alt rounded-2xl hover:scale-95 hover:opacity-70 transition-all duration-150 ease-out",
+		"w-full h-80 max-w-screen-lg flex items-center justify-center cursor-pointer flex-col",
+		"border-2 border-solid border-foreground-muted-alt rounded-2xl",
+		"hover:scale-95 hover:opacity-70 transition-all duration-150 ease-out",
 		{
 			"scale-95 opacity-70": dragOver,
 		},
