@@ -24,4 +24,4 @@
 	<p class="text-foreground-muted">the</p>
 </button>
 
-<input type="file" class="hidden" bind:files bind:this={fileInput} />
+<input type="file" class="hidden" bind:files bind:this={fileInput} multiple />
