@@ -7,7 +7,20 @@ import type { VipsWorkerMessage, OmitBetterStrict } from "$lib/types";
 export class VipsConverter extends Converter {
 	private worker: Worker = browser ? new VipsWorker() : null!;
 	private id = 0;
-	public supportedFormats = [""];
+	public supportedFormats = [
+		".jpg",
+		".jpeg",
+		".png",
+		".webp",
+		".tiff",
+		".tif",
+		".gif",
+		".svg",
+		".webp",
+		".jfif",
+		".ico",
+		".bmp",
+	];
 
 	constructor() {
 		super();
