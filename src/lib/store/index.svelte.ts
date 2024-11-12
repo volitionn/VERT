@@ -4,6 +4,7 @@ class Files {
 			file: File;
 			to: string;
 			blobUrl: string;
+			id: string;
 		}[]
 	>([]);
 	public conversionTypes = $state<string[]>([]);

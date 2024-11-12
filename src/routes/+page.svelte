@@ -13,6 +13,7 @@
 				file: f,
 				to: converters[0].supportedFormats[0],
 				blobUrl: URL.createObjectURL(f),
+				id: Math.random().toString(36).substring(2),
 			})),
 		];
 
