@@ -99,7 +99,7 @@
 					<div class="absolute top-0 right-0 w-5/6 h-full">
 						<ProgressiveBlur
 							direction="right"
-							endIntensity={64}
+							endIntensity={128}
 							iterations={6}
 							fadeTo="rgba(255, 255, 255, 0.8)"
 						/>
