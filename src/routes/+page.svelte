@@ -54,6 +54,36 @@
 	// };
 </script>
 
+<svelte:head>
+	<title>VERT.sh — Free, fast, and awesome file convert</title>
+	<meta
+		name="title"
+		content="VERT.sh — Free, fast, and awesome file convert"
+	/>
+	<meta
+		name="description"
+		content="With VERT you can convert images to PNG, JPG, WEBP, GIF, AVIF, and more. No ads, no tracking, open source, and all processing is done on your device."
+	/>
+	<meta property="og:type" content="website" />
+	<meta
+		property="og:title"
+		content="VERT.sh — Free, fast, and awesome file convert"
+	/>
+	<meta
+		property="og:description"
+		content="With VERT you can convert images to PNG, JPG, WEBP, GIF, AVIF, and more. No ads, no tracking, open source, and all processing is done on your device."
+	/>
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta
+		property="twitter:title"
+		content="VERT.sh — Free, fast, and awesome file convert"
+	/>
+	<meta
+		property="twitter:description"
+		content="With VERT you can convert images to PNG, JPG, WEBP, GIF, AVIF, and more. No ads, no tracking, open source, and all processing is done on your device."
+	/>
+</svelte:head>
+
 {#snippet sellingPoint(text: string)}
 	<li class="flex items-center gap-4">
 		<div

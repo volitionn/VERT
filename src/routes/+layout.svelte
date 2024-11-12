@@ -6,6 +6,7 @@
 	import { files } from "$lib/store/index.svelte";
 	import Logo from "$lib/components/visual/svg/Logo.svelte";
 	import { fly } from "svelte/transition";
+	import featuredImage from "$lib/assets/VERT_Feature.webp";
 	let { children, data } = $props();
 
 	let navWidth = $state(1);
@@ -33,6 +34,13 @@
 		}
 	};
 </script>
+
+<svelte:head>
+	<title>VERT.sh</title>
+	<meta name="theme-color" content="#F2ABEE" />
+	<meta property="og:image" content={featuredImage} />
+	<meta property="twitter:image" content={featuredImage} />
+</svelte:head>
 
 <div
 	role="main"
