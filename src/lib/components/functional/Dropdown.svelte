@@ -46,13 +46,15 @@
 	});
 </script>
 
-<div class="relative w-full" bind:this={dropdown}>
+<div class="relative w-full min-w-fit" bind:this={dropdown}>
 	<button
-		class="font-display w-full justify-between overflow-hidden relative cursor-pointer px-3 border-2 border-solid flex items-center bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none"
+		class="font-display w-full min-w-fit justify-between overflow-hidden relative cursor-pointer px-3 border-2 border-solid flex items-center bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none"
 		onclick={toggle}
 	>
 		<!-- <p>{selected}</p> -->
-		<div class="grid grid-cols-1 grid-rows-1 w-fit text-left flex-grow-0">
+		<div
+			class="grid grid-cols-1 grid-rows-1 w-fit text-left flex-grow-0 pr-12"
+		>
 			{#key selected}
 				<p
 					in:blur={{
