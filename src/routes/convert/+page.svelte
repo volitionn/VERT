@@ -122,7 +122,7 @@
 			// download the image only
 			const blob = URL.createObjectURL(
 				new Blob([dlFiles[0].input], {
-					type: files.files[0].file.type,
+					type: files.files[0].to.slice(1),
 				}),
 			);
 			const a = document.createElement("a");
