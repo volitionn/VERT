@@ -73,8 +73,9 @@
 					4}px; transition: {duration - 200}ms ease left;"
 			></div>
 			{#each Object.entries(links) as [name, link] (link)}
-				<button
+				<a
 					class="w-1/2 px-2 h-[calc(100%-16px)] mt-2 flex items-center justify-center rounded-xl relative font-display overflow-hidden"
+					href={link}
 					onclick={() => {
 						const keys = Object.keys(links);
 						const currentIndex = keys.findIndex(
@@ -84,8 +85,6 @@
 							(key) => links[key] === link,
 						);
 						shouldGoBack = nextIndex < currentIndex;
-						console.log({ shouldGoBack });
-						goto(link);
 					}}
 				>
 					<div class="grid grid-cols-1 grid-rows-1">
@@ -107,7 +106,7 @@
 							</span>
 						{/key}
 					</div>
-				</button>
+				</a>
 			{/each}
 		</div>
 	</div>
