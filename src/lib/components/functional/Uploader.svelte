@@ -86,7 +86,7 @@
 	ondrop={drop}
 >
 	<div
-		class="file-uploader-center flex items-center justify-center flex-col transition-all duration-150 ease-out"
+		class="file-uploader-center flex items-center justify-center flex-col transition-all duration-150 ease-out px-8"
 	>
 		<div
 			class="size-16 rounded-full text-accent-foreground bg-accent-background flex items-center justify-center"

@@ -5,16 +5,26 @@
 	import { converters } from "$lib/converters";
 	import { files } from "$lib/store/index.svelte";
 	import clsx from "clsx";
-	import { XIcon } from "lucide-svelte";
+	import { ArrowBigRight, ArrowRight, XIcon } from "lucide-svelte";
 	import { onMount } from "svelte";
 	import { quintOut } from "svelte/easing";
 	import { downloadZip } from "client-zip";
+	import { browser } from "$app/environment";
 
 	const reversed = $derived(files.files.slice().reverse());
 
 	let finisheds = $state(
 		Array.from({ length: files.files.length }, () => false),
 	);
+
+	let isSm = $state(false);
+
+	onMount(() => {
+		isSm = window.innerWidth < 640;
+		window.addEventListener("resize", () => {
+			isSm = window.innerWidth < 640;
+		});
+	});
 
 	let converterName = $state(converters[0].name);
 
@@ -243,7 +253,7 @@
 				>
 					<div
 						class={clsx(
-							"h-16 px-3 flex relative flex-shrink-0 items-center w-full rounded-xl",
+							"sm:h-16 sm:py-0 py-4 px-3 flex relative flex-shrink-0 items-center w-full rounded-xl",
 							{
 								"initial-fade": !finisheds[i],
 							},
@@ -254,11 +264,11 @@
 							: 'var(--fg-muted-alt)'}; transition: border 1000ms ease;"
 					>
 						<div
-							class="flex items-center justify-between w-full z-50 relative"
+							class="flex gap-8 sm:gap-0 sm:flex-row flex-col items-center justify-between w-full z-50 relative sm:h-fit h-full"
 						>
 							<div
 								class={clsx(
-									"py-2 px-3 rounded-xl transition-colors duration-300",
+									"py-2 px-3 rounded-xl transition-colors duration-300 sm:w-fit w-full sm:text-left text-center",
 									{
 										"bg-accent-background text-accent-foreground":
 											file.result,
@@ -269,28 +279,48 @@
 							>
 								{file.file.name}
 							</div>
-							<div class="flex items-center gap-3 flex-shrink-0">
+							<div
+								class="flex items-center gap-3 sm:justify-normal w-full sm:w-fit flex-shrink-0"
+							>
 								{#if converter.supportedFormats.includes(file.from)}
-									<span>from</span>
+									<span class="sm:block hidden">from</span>
 									<span
-										class="py-2 px-3 font-display bg-foreground text-background rounded-xl"
+										class="py-2 px-3 font-display bg-foreground text-background rounded-xl sm:block hidden"
 										>{file.from}</span
 									>
-									<span>to</span>
-									<!-- <select bind:value={files.conversionTypes[i]}>
-									{#each converter.supportedFormats as conversionType}
-										<option value={conversionType}
-											>{conversionType}</option
+									<span class="sm:block hidden">to</span>
+									<div class="sm:block hidden">
+										<Dropdown
+											options={converter.supportedFormats}
+											bind:selected={files
+												.conversionTypes[i]}
+											onselect={() => {
+												file.result = null;
+											}}
+										/>
+									</div>
+									<div class="w-full sm:hidden block h-11">
+										<div
+											class="py-2 px-3 font-display bg-foreground text-background rounded-xl"
 										>
-									{/each}
-								</select> -->
-									<Dropdown
-										options={converter.supportedFormats}
-										bind:selected={files.conversionTypes[i]}
-										onselect={() => {
-											file.result = null;
-										}}
-									/>
+											{file.from}
+										</div>
+									</div>
+									<div class="w-full sm:hidden block h-full">
+										<ArrowRight
+											class="w-6 h-6 text-accent-foreground"
+										/>
+									</div>
+									<div class="w-full sm:hidden block h-full">
+										<Dropdown
+											options={converter.supportedFormats}
+											bind:selected={files
+												.conversionTypes[i]}
+											onselect={() => {
+												file.result = null;
+											}}
+										/>
+									</div>
 								{:else}
 									<span
 										class="py-2 px-3 font-display bg-foreground-failure text-white rounded-xl"
@@ -312,7 +342,7 @@
 												(_, j) => j !== i,
 											);
 									}}
-									class="ml-2 mr-1"
+									class="ml-2 mr-1 sm:block hidden"
 								>
 									<XIcon size="18" />
 								</button>
@@ -328,13 +358,13 @@
 									style="background-image: url({file.blobUrl});"
 								></div>
 								<div
-									class="absolute top-0 right-0 w-5/6 h-full"
+									class="absolute sm:top-0 bottom-0 sm:right-0 sm:w-5/6 h-5/6 w-full sm:h-full"
 								>
 									<ProgressiveBlur
-										direction="right"
+										direction={isSm ? "bottom" : "right"}
 										endIntensity={128}
 										iterations={6}
-										fadeTo="rgba(255, 255, 255, 0.8)"
+										fadeTo="rgba(255, 255, 255, 0.6)"
 									/>
 								</div>
 							</div>

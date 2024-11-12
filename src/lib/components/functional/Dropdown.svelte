@@ -46,9 +46,9 @@
 	});
 </script>
 
-<div class="relative" bind:this={dropdown}>
+<div class="relative w-full" bind:this={dropdown}>
 	<button
-		class="font-display justify-between overflow-hidden relative cursor-pointer px-3 border-2 border-solid flex items-center bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none"
+		class="font-display w-full justify-between overflow-hidden relative cursor-pointer px-3 border-2 border-solid flex items-center bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none"
 		onclick={toggle}
 	>
 		<!-- <p>{selected}</p> -->
