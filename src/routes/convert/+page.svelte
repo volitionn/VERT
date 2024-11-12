@@ -137,7 +137,7 @@
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement("a");
 		a.href = url;
-		a.download = `${new Date().toISOString()}-vert-converted.zip`;
+		a.download = `VERT-Converted_${new Date().toISOString()}.zip`;
 		a.click();
 		URL.revokeObjectURL(url);
 		a.remove();
