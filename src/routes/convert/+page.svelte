@@ -16,7 +16,7 @@
 
 	onMount(() => {
 		finisheds.forEach((_, i) => {
-			const duration = 750 + i * 50 - 8;
+			const duration = 750 + i * 50 - 32;
 			setTimeout(() => {
 				finisheds[i] = true;
 				console.log(`finished ${i}`);
