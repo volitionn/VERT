@@ -85,7 +85,10 @@
 </svelte:head>
 
 {#snippet sellingPoint(text: string)}
-	<li class="flex items-center gap-4">
+	<li
+		class="grid items-center gap-4"
+		style="grid-template-columns: 2rem auto"
+	>
 		<div
 			class="h-8 w-8 bg-accent-background text-accent-foreground rounded-full flex items-center justify-center"
 		>
@@ -99,8 +102,8 @@
 	<Uploader bind:files={ourFiles} onupload={runUpload} />
 </div>
 
-<div class="text-center mt-20">
-	<h1 class="text-3xl font-display">
+<div class="mt-20">
+	<h1 class="text-3xl text-center font-display">
 		Free, fast, and awesome file converting
 	</h1>
 	<div class="flex justify-center mt-10">
