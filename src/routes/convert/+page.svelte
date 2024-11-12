@@ -43,7 +43,7 @@
 					blurMultiplier: 16,
 				}}
 				class={clsx(
-					"h-16 px-3 flex relative items-center w-full border-2 border-solid border-foreground-muted-alt rounded-xl",
+					"h-16 px-3 flex relative flex-shrink-0 items-center w-full border-2 border-solid border-foreground-muted-alt rounded-xl",
 					{
 						"initial-fade": !finisheds[i],
 					},
@@ -121,6 +121,7 @@
 				{/if}
 			</div>
 		{/each}
+		<div class="w-full h-4 flex-shrink-0"></div>
 	</div>
 </div>
 
