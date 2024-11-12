@@ -104,7 +104,7 @@
 		</div>
 	</div>
 	<div
-		class="w-full max-w-screen-lg h-full grid grid-cols-1 grid-rows-1 relative"
+		class="w-full max-w-screen-lg h-full grid grid-cols-1 grid-rows-1 relative pb-20"
 	>
 		{#key data.pathname}
 			<div class="w-full h-full">

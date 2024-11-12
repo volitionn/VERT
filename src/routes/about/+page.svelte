@@ -18,6 +18,13 @@
 		has a beautiful UI! ✨
 	</p>
 
+	<h2 class="font-display text-3xl mt-12">🖼️ supported formats</h2>
+	<p class="mt-6">
+		As of right now, VERT only supports image conversion of most popular
+		formats. Don't worry though, as we'll add support for more formats in
+		the future!
+	</p>
+
 	<h2 class="font-display text-3xl mt-12">🎨 credits</h2>
 	<div class="flex gap-4 mt-8">
 		<a
