@@ -56,6 +56,19 @@
 		class="font-display text-3xl mt-12 text-transition"
 		style="--delay: {5 * multiplier}ms"
 	>
+		👨‍💻 source code
+	</h2>
+	<p class="mt-6 text-transition" style="--delay: {6 * multiplier}ms">
+		VERT is licensed under AGPL-3.0, and the source code can be found on <a
+			class="hover:underline font-medium text-foreground-highlight"
+			href="https://github.com/not-nullptr/VERT">GitHub</a
+		>.
+	</p>
+
+	<h2
+		class="font-display text-3xl mt-12 text-transition"
+		style="--delay: {7 * multiplier}ms"
+	>
 		🎨 credits
 	</h2>
 	<div class="flex gap-4 mt-8">
@@ -63,7 +76,7 @@
 			<div class="hover:scale-105 w-48 transition-transform">
 				<div
 					class="border-2 credit-transition border-solid border-foreground-muted-alt rounded-2xl overflow-hidden"
-					style="--delay: {i * 50 + multiplier * 5}ms;"
+					style="--delay: {i * 50 + multiplier * 8}ms;"
 				>
 					<a class="w-48" href={credit.url} target="_blank">
 						<img src={credit.avatar} alt="{credit.name}'s avatar" />
@@ -79,7 +92,10 @@
 		{/each}
 	</div>
 
-	<p class="text-foreground-muted text-base mt-10">
+	<p
+		class="text-foreground-muted text-base mt-10 text-transition"
+		style="--delay: {9 * multiplier}ms"
+	>
 		(obviously inspired by <a
 			href="https://cobalt.tools"
 			class="hover:underline">cobalt.tools</a

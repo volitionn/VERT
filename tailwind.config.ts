@@ -11,6 +11,7 @@ export default {
 				"foreground-muted": "var(--fg-muted)",
 				"foreground-muted-alt": "var(--fg-muted-alt)",
 				"foreground-failure": "var(--fg-failure)",
+				"foreground-highlight": "var(--fg-highlight)",
 				"accent-background": "var(--accent-bg)",
 				"accent-foreground": "var(--accent-fg)",
 			},

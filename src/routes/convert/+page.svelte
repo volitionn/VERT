@@ -215,7 +215,7 @@
 					</div>
 				</div>
 
-				<div class="flex gap-4 mt-8">
+				<div class="grid md:grid-cols-2 gap-3 mt-8">
 					<button
 						onclick={convertAll}
 						class={clsx("btn flex-grow", {

@@ -44,13 +44,24 @@
 
 <div
 	role="main"
-	class="w-full h-full flex items-center p-4 flex-col gap-16"
+	class="w-full h-full max-w-screen-lg mx-auto p-4"
 	ondragenter={maybeNavToHome}
 >
+	<div class="flex justify-center mb-5 lg:hidden">
+		<a
+			href="/"
+			class="px-6 relative h-16 mr-3 justify-center items-center bg-accent-background fill-accent-foreground rounded-xl md:hidden flex"
+		>
+			<div class="h-6 w-24 items-center flex justify-center">
+				<Logo />
+			</div>
+		</a>
+	</div>
+
 	<div
-		class="w-full max-w-screen-md p-1 border-solid border-2 rounded-2xl border-foreground-muted-alt flex"
+		class="w-full max-w-screen-md p-1 border-solid border-2 rounded-2xl border-foreground-muted-alt flex mb-10 mx-auto lg:mt-5"
 	>
-		<div class="p-1">
+		<div class="md:p-1">
 			<a
 				href="/"
 				class="px-3 relative w-full h-full mr-3 justify-center items-center bg-accent-background fill-accent-foreground rounded-xl md:flex hidden"
@@ -110,13 +121,11 @@
 			{/each}
 		</div>
 	</div>
-	<div
-		class="w-full max-w-screen-lg h-full grid grid-cols-1 grid-rows-1 relative"
-	>
+	<div class="w-full max-w-screen-lg grid grid-cols-1 grid-rows-1 relative">
 		{#key data.pathname}
-			<div class="w-full h-full">
+			<div class="w-full">
 				<div
-					class="absolute top-0 left-0 w-full h-full"
+					class="absolute top-0 left-0 w-full"
 					in:blur={{
 						duration,
 						easing: quintOut,

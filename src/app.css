@@ -17,8 +17,24 @@
 	--fg: hsl(0, 0%, 10%);
 	--fg-muted: hsl(0, 0%, 50%);
 	--fg-muted-alt: hsl(0, 0%, 75%);
+	--fg-highlight: hsl(303, 52%, 42%);
 	--fg-failure: hsl(0, 67%, 49%);
-	--transition: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001);
+	--transition: linear(
+		0,
+		0.006,
+		0.025 2.8%,
+		0.101 6.1%,
+		0.539 18.9%,
+		0.721 25.3%,
+		0.849 31.5%,
+		0.937 38.1%,
+		0.968 41.8%,
+		0.991 45.7%,
+		1.006 50.1%,
+		1.015 55%,
+		1.017 63.9%,
+		1.001
+	);
 }
 
 body {
@@ -33,7 +49,10 @@ body {
 
 	.btn {
 		@apply font-display flex items-center justify-center overflow-hidden relative cursor-pointer px-4 border-2 border-solid bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none hover:scale-105 duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
-		transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease,
+			background-color 0.2s ease;
 	}
 
 	.btn-highlight {
