@@ -20,6 +20,8 @@
 
 	let converter = $derived(converters.find((c) => c.name === converterName))!;
 
+	let disabled = $derived(files.files.some((f) => !f.result));
+
 	onMount(() => {
 		finisheds.forEach((_, i) => {
 			const duration = 750 + i * 50 - 32;
@@ -198,19 +200,15 @@
 					<button
 						onclick={convertAll}
 						class={clsx("btn flex-grow", {
-							"btn-highlight": !files.files.find((i) => i.result),
+							"btn-highlight": disabled,
 						})}
 						>Convert{files.files.length > 1 ? " All" : ""}</button
 					>
 					<button
 						onclick={() => downloadAll}
 						class={clsx("btn flex-grow", {
-							"opacity-50 pointer-events-none": files.files.find(
-								(i) => !i.result,
-							),
-							"btn-highlight": !files.files.find(
-								(i) => !i.result,
-							),
+							"opacity-50 pointer-events-none": disabled,
+							"btn-highlight": !disabled,
 						})}
 						>Download{files.files.length > 1 ? " All" : ""}</button
 					>
