@@ -306,7 +306,9 @@
 											{file.from}
 										</div>
 									</div>
-									<div class="w-full sm:hidden block h-full">
+									<div
+										class="w-full sm:hidden h-full flex justify-center items-center"
+									>
 										<ArrowRight
 											class="w-6 h-6 text-accent-foreground"
 										/>
