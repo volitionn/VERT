@@ -9,6 +9,7 @@
 	interface Props {
 		files: File[] | undefined;
 		onupload?: () => void;
+		isMobile: boolean;
 	}
 
 	$effect(() => {
@@ -19,7 +20,7 @@
 	let fileInput = $state<HTMLInputElement>();
 	let dragOver = $state(false);
 
-	let { files = $bindable(), onupload }: Props = $props();
+	let { files = $bindable(), onupload, isMobile }: Props = $props();
 
 	function upload() {
 		if (!fileInput) return;
@@ -94,7 +95,7 @@
 			<Upload class="size-8" />
 		</div>
 		<h2 class="font-display text-2xl mt-6">
-			Drop or click to upload files
+			{isMobile ? "Tap" : "Drop or click"} to upload files
 		</h2>
 		<p class="text-foreground-muted mt-4">
 			All processing is done on your device. No file or size limit.

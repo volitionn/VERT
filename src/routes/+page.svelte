@@ -6,6 +6,8 @@
 	import { files } from "$lib/store/index.svelte";
 	import { Check } from "lucide-svelte";
 
+	const { data } = $props();
+
 	let ourFiles = $state<File[]>();
 
 	const runUpload = () => {
@@ -25,34 +27,6 @@
 		if (files.files.length > 0 && !files.beenToConverterPage)
 			goto("/convert");
 	};
-
-	// const convertAllFiles = async () => {
-	// 	const promises = files.files?.map(async (file, i) => {
-	// 		let conversionType = files.conversionTypes[i];
-	// 		const converter = converters[0];
-	// 		const convertedFile = await converter.convert(
-	// 			{
-	// 				name: file.name,
-	// 				buffer: await file.arrayBuffer(),
-	// 			},
-	// 			conversionType,
-	// 		);
-	// 		files.downloadFns[i] = () => {
-	// 			const url = URL.createObjectURL(
-	// 				new Blob([convertedFile.buffer]),
-	// 			);
-	// 			const a = document.createElement("a");
-	// 			a.href = url;
-	// 			if (conversionType.startsWith("."))
-	// 				conversionType = conversionType.slice(1);
-	// 			a.download = `${file.name}.${conversionType}`;
-	// 			a.target = "_self";
-	// 			a.click();
-	// 			URL.revokeObjectURL(url);
-	// 		};
-	// 	});
-	// 	if (promises) await Promise.all(promises);
-	// };
 </script>
 
 <svelte:head>
@@ -100,7 +74,11 @@
 {/snippet}
 
 <div class="[@media(max-height:768px)]:block mt-10 picker-fly">
-	<Uploader bind:files={ourFiles} onupload={runUpload} />
+	<Uploader
+		isMobile={data.isMobile}
+		bind:files={ourFiles}
+		onupload={runUpload}
+	/>
 </div>
 
 <div class="mt-20">
