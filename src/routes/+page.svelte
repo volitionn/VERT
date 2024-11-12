@@ -3,6 +3,7 @@
 	import Uploader from "$lib/components/functional/Uploader.svelte";
 	import { converters } from "$lib/converters";
 	import { files } from "$lib/store/index.svelte";
+	import { Check } from "lucide-svelte";
 
 	let ourFiles = $state<File[]>();
 
@@ -53,8 +54,32 @@
 	// };
 </script>
 
-<div class="[@media(max-height:768px)]:block mt-32">
+{#snippet sellingPoint(text: string)}
+	<li class="flex items-center gap-4">
+		<div
+			class="h-8 w-8 bg-accent-background text-accent-foreground rounded-full flex items-center justify-center"
+		>
+			<Check />
+		</div>
+		<span class="text-lg">{text}</span>
+	</li>
+{/snippet}
+
+<div class="[@media(max-height:768px)]:block mt-10">
 	<Uploader bind:files={ourFiles} onupload={runUpload} />
+</div>
+
+<div class="text-center mt-20">
+	<h1 class="text-3xl font-display">
+		Free, fast, and awesome file converting
+	</h1>
+	<div class="flex justify-center mt-10">
+		<div class="grid gap-4">
+			{@render sellingPoint("Very fast, all processing done on device")}
+			{@render sellingPoint("No ads, and open source")}
+			{@render sellingPoint("Beautiful and straightforward UI")}
+		</div>
+	</div>
 </div>
 
 <style>
