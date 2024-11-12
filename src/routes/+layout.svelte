@@ -137,7 +137,7 @@
 						},
 					}}
 				>
-					<div class="pb-20 min-h-full">
+					<div class="pb-20">
 						{@render children()}
 					</div>
 				</div>
