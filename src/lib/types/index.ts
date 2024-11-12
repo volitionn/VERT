@@ -1,3 +1,3 @@
 export * from "./file";
 export * from "./util";
-export * from "./vips-worker";
+export * from "./conversion-worker";

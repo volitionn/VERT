@@ -1,7 +1,10 @@
-import type { VipsWorkerMessage, OmitBetterStrict } from "$lib/types";
+import type { WorkerMessage, OmitBetterStrict } from "$lib/types";
 import Vips from "wasm-vips";
 
-const vipsPromise = Vips();
+const vipsPromise = Vips({
+	// see https://github.com/kleisauke/wasm-vips/issues/85
+	dynamicLibraries: [],
+});
 
 vipsPromise
 	.then(() => {
@@ -12,8 +15,8 @@ vipsPromise
 	});
 
 const handleMessage = async (
-	message: VipsWorkerMessage,
-): Promise<OmitBetterStrict<VipsWorkerMessage, "id"> | undefined> => {
+	message: WorkerMessage,
+): Promise<OmitBetterStrict<WorkerMessage, "id"> | undefined> => {
 	const vips = await vipsPromise;
 	switch (message.type) {
 		case "convert": {
@@ -34,11 +37,19 @@ const handleMessage = async (
 };
 
 onmessage = async (e) => {
-	const message: VipsWorkerMessage = e.data;
-	const res = await handleMessage(message);
-	if (!res) return;
-	postMessage({
-		...res,
-		id: message.id,
-	});
+	const message: WorkerMessage = e.data;
+	try {
+		const res = await handleMessage(message);
+		if (!res) return;
+		postMessage({
+			...res,
+			id: message.id,
+		});
+	} catch (e) {
+		postMessage({
+			type: "error",
+			error: e,
+			id: message.id,
+		});
+	}
 };

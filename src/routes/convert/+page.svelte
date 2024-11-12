@@ -33,29 +33,34 @@
 	});
 
 	const convertAll = async () => {
-		// for (let i = 0; i < files.files.length; i++) {
-		// 	const file = files.files[i];
-		// 	const to = files.conversionTypes[i];
-		// 	const converter = converters.find(
-		// 		(c) => c.name === files.conversionTypes[i],
-		// 	);
-		// 	if (!converter) {
-		// 		console.error("Converter not found");
-		// 		continue;
-		// 	}
-		// 	const converted = await converter.convert({
-		// 		name: file.file.name,
-		// 		buffer: await file.file.arrayBuffer(),
-		// 	}, to);
-		// 	files.files[i] = {
-		// 		...file,
-		// 		file: new File([converted.buffer], file.file.name, {
-		// 			type: file.file.type,
+		// if (!converter.ready) return;
+		// const workingFormats: string[] = [];
+		// try {
+		// 	await Promise.all(
+		// 		converter.supportedFormats.map(async (format) => {
+		// 			try {
+		// 				const img = files.files[0];
+		// 				if (!img) return;
+		// 				console.log(`Converting to ${format}`);
+		// 				await converter.convert(
+		// 					{
+		// 						name: img.file.name,
+		// 						buffer: await img.file.arrayBuffer(),
+		// 					},
+		// 					format,
+		// 				);
+		// 				console.log(`Converted to ${format}`);
+		// 				workingFormats.push(format);
+		// 			} catch (e: any) {
+		// 				console.error(e);
+		// 			}
 		// 		}),
-		// 		blobUrl: URL.createObjectURL(new Blob([converted.buffer], { type: file.file.type })),
-		// 	};
+		// 	);
+		// } catch {
+		// 	console.error("Failed to convert to any format");
 		// }
-
+		// console.log(workingFormats);
+		// return;
 		const promises: Promise<void>[] = [];
 		for (let i = 0; i < files.files.length; i++) {
 			const file = files.files[i];
@@ -187,6 +192,15 @@
 								(converter) => converter.name,
 							)}
 							bind:selected={converterName}
+							onselect={() => {
+								files.files.forEach((file) => {
+									file.result = null;
+								});
+								files.conversionTypes = Array.from(
+									{ length: files.files.length },
+									() => converter.supportedFormats[0],
+								);
+							}}
 						/>
 					</div>
 				</div>
@@ -197,15 +211,21 @@
 						class={clsx("btn flex-grow", {
 							"btn-highlight": disabled,
 						})}
-						>Convert{files.files.length > 1 ? " All" : ""}</button
+						disabled={!converter.ready}
 					>
+						{#if converter.ready}
+							Convert {files.files.length > 1 ? "All" : ""}
+						{:else}
+							Loading...
+						{/if}
+					</button>
 					<button
 						onclick={downloadAll}
 						class={clsx("btn flex-grow", {
-							"opacity-50 pointer-events-none": disabled,
 							"btn-highlight": !disabled,
 						})}
-						>Download{files.files.length > 1 ? " All" : ""}</button
+						{disabled}
+						>Download {files.files.length > 1 ? "All" : ""}</button
 					>
 				</div>
 			</div>
@@ -289,6 +309,10 @@
 										files.files = files.files.filter(
 											(f) => f !== file,
 										);
+										files.conversionTypes =
+											files.conversionTypes.filter(
+												(_, j) => j !== i,
+											);
 									}}
 									class="ml-2 mr-1"
 								>

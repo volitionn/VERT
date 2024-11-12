@@ -31,7 +31,8 @@ body {
 	}
 
 	.btn {
-		@apply font-display flex items-center justify-center overflow-hidden relative cursor-pointer px-4 border-2 border-solid bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none hover:scale-105 transition-all duration-200 active:scale-95;
+		@apply font-display flex items-center justify-center overflow-hidden relative cursor-pointer px-4 border-2 border-solid bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none hover:scale-105 duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+		transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
 	}
 
 	.btn-highlight {

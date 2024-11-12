@@ -52,7 +52,7 @@
 		onclick={toggle}
 	>
 		<!-- <p>{selected}</p> -->
-		<div class="grid grid-cols-1 grid-rows-1 w-fit">
+		<div class="grid grid-cols-1 grid-rows-1 w-fit text-left flex-grow-0">
 			{#key selected}
 				<p
 					in:blur={{
@@ -60,11 +60,11 @@
 						easing: quintOut,
 						blurMultiplier: 6,
 						scale: {
-							start: 0.5,
+							start: 0.9,
 							end: 1,
 						},
 						y: {
-							start: isUp ? 50 : -50,
+							start: isUp ? -50 : 50,
 							end: 0,
 						},
 					}}
@@ -74,11 +74,11 @@
 						blurMultiplier: 6,
 						scale: {
 							start: 1,
-							end: 0.5,
+							end: 0.9,
 						},
 						y: {
 							start: 0,
-							end: isUp ? -50 : 50,
+							end: isUp ? 50 : -50,
 						},
 					}}
 					class="col-start-1 row-start-1 text-left"
@@ -87,7 +87,9 @@
 				</p>
 			{/key}
 			{#each options as option}
-				<p class="col-start-1 row-start-1 opacity-0">
+				<p
+					class="col-start-1 row-start-1 invisible pointer-events-none"
+				>
 					{option}
 				</p>
 			{/each}
