@@ -2,6 +2,7 @@ class Files {
 	public files = $state<
 		{
 			file: File;
+			from: string;
 			to: string;
 			blobUrl: string;
 			id: string;

@@ -43,7 +43,7 @@
 					blurMultiplier: 16,
 				}}
 				class={clsx(
-					"flex relative items-center w-full border-2 border-solid border-foreground-muted-alt rounded-xl pl-4 pr-2 py-2",
+					"h-16 pl-4 pr-2 flex relative items-center w-full border-2 border-solid border-foreground-muted-alt rounded-xl",
 					{
 						"initial-fade": !finisheds[i],
 					},
@@ -58,23 +58,34 @@
 					>
 						{file.file.name}
 					</div>
-					<div class="flex items-center gap-2 flex-shrink-0">
-						<span>from</span>
-						<span
-							class="py-2 px-3 font-display bg-foreground text-background rounded-xl"
-							>.{file.file.name.split(".").slice(-1)}</span
-						>
-						<span>to</span>
-						<select
-							class="font-display border-2 border-solid border-foreground-muted-alt rounded-xl p-2 focus:!outline-none"
-							bind:value={files.conversionTypes[i]}
-						>
-							{#each converters[0].supportedFormats as conversionType}
-								<option value={conversionType}
-									>{conversionType}</option
-								>
-							{/each}
-						</select>
+					<div class="flex items-center gap-3 flex-shrink-0">
+						{#if converters[0].supportedFormats.includes(file.from)}
+							<span>from</span>
+							<span
+								class="py-2 px-3 font-display bg-foreground text-background rounded-xl"
+								>{file.from}</span
+							>
+							<span>to</span>
+							<select
+								class="font-display border-2 border-solid border-foreground-muted-alt rounded-xl p-2 focus:!outline-none"
+								bind:value={files.conversionTypes[i]}
+							>
+								{#each converters[0].supportedFormats as conversionType}
+									<option value={conversionType}
+										>{conversionType}</option
+									>
+								{/each}
+							</select>
+						{:else}
+							<span
+								class="py-2 px-3 font-display bg-foreground-failure text-white rounded-xl"
+								>{file.from}</span
+							>
+
+							<span class="text-foreground-failure">
+								is not supported!
+							</span>
+						{/if}
 						<button
 							onclick={() => {
 								// delete the file from the list
@@ -88,23 +99,25 @@
 						</button>
 					</div>
 				</div>
-				<!-- god knows why, but setting opacity > 0.98 causes a z-ordering issue in firefox ??? -->
-				<div
-					class="absolute top-0 -z-50 left-0 w-full h-full rounded-[10px] overflow-hidden opacity-[0.98]"
-				>
+				{#if converters[0].supportedFormats.includes(file.from)}
+					<!-- god knows why, but setting opacity > 0.98 causes a z-ordering issue in firefox ??? -->
 					<div
-						class="bg-cover bg-center w-full h-full"
-						style="background-image: url({file.blobUrl});"
-					></div>
-					<div class="absolute top-0 right-0 w-5/6 h-full">
-						<ProgressiveBlur
-							direction="right"
-							endIntensity={128}
-							iterations={6}
-							fadeTo="rgba(255, 255, 255, 0.8)"
-						/>
+						class="absolute top-0 -z-50 left-0 w-full h-full rounded-[10px] overflow-hidden opacity-[0.98]"
+					>
+						<div
+							class="bg-cover bg-center w-full h-full"
+							style="background-image: url({file.blobUrl});"
+						></div>
+						<div class="absolute top-0 right-0 w-5/6 h-full">
+							<ProgressiveBlur
+								direction="right"
+								endIntensity={128}
+								iterations={6}
+								fadeTo="rgba(255, 255, 255, 0.8)"
+							/>
+						</div>
 					</div>
-				</div>
+				{/if}
 			</div>
 		{/each}
 	</div>

@@ -11,6 +11,7 @@
 			...files.files,
 			...(ourFiles || []).map((f) => ({
 				file: f,
+				from: "." + f.name.split(".").slice(-1),
 				to: converters[0].supportedFormats[0],
 				blobUrl: URL.createObjectURL(f),
 				id: Math.random().toString(36).substring(2),

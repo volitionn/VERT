@@ -5,7 +5,7 @@
 	import { quintOut } from "svelte/easing";
 	import { files } from "$lib/store/index.svelte";
 	import Logo from "$lib/components/visual/svg/Logo.svelte";
-	import { fade, fly } from "svelte/transition";
+	import { fly } from "svelte/transition";
 	let { children, data } = $props();
 
 	let navWidth = $state(1);
