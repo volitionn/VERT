@@ -90,7 +90,7 @@
 					<div class="grid grid-cols-1 grid-rows-1">
 						{#key name}
 							<span
-								class="mix-blend-difference invert col-start-1 row-start-1"
+								class="mix-blend-difference invert col-start-1 row-start-1 text-center"
 								in:fly={{
 									duration,
 									easing: quintOut,
