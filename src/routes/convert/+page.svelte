@@ -60,11 +60,6 @@
 		for (let i = 0; i < files.files.length; i++) {
 			const file = files.files[i];
 			const to = files.conversionTypes[i];
-			const converter = converters.find((c) => c.name === converterName);
-			if (!converter) {
-				console.error("Converter not found");
-				continue;
-			}
 			promises.push(
 				(async () => {
 					const converted = await converter.convert(
