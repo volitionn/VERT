@@ -44,9 +44,9 @@
 	>
 		<div class="p-1">
 			<div
-				class="px-4 relative w-full h-full mr-3 justify-center items-center bg-accent-background fill-accent-foreground rounded-xl md:flex hidden"
+				class="px-3 relative w-full h-full mr-3 justify-center items-center bg-accent-background fill-accent-foreground rounded-xl md:flex hidden"
 			>
-				<div class="h-6 items-center flex justify-center">
+				<div class="h-6 w-24 items-center flex justify-center">
 					<Logo />
 				</div>
 			</div>
