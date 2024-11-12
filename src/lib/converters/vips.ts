@@ -7,7 +7,7 @@ import type { VipsWorkerMessage, OmitBetterStrict } from "$lib/types";
 export class VipsConverter extends Converter {
 	private worker: Worker = browser ? new VipsWorker() : null!;
 	private id = 0;
-	public name = "Vips";
+	public name = "libvips";
 	public supportedFormats = [
 		".jpg",
 		".jpeg",

@@ -159,24 +159,12 @@
 			}}
 		>
 			<div
-				class="w-full px-4 py-3 max-w-screen-lg p-1 border-solid flex-col border-2 rounded-2xl border-foreground-muted-alt flex flex-shrink-0"
+				class="w-full p-4 max-w-screen-lg border-solid flex-col border-2 rounded-2xl border-foreground-muted-alt flex flex-shrink-0"
 			>
-				<h2 class="font-bold text-xl mb-3">Options</h2>
-				<div class="flex flex-col gap-4 mt-2">
-					<div class="w-fit flex flex-col items-center gap-2">
-						<h3 class="mr-5">Converter</h3>
-						<Dropdown
-							options={converters.map(
-								(converter) => converter.name,
-							)}
-							bind:selected={converterName}
-						/>
-					</div>
-				</div>
-				<h2 class="font-bold text-xl mb-3 mt-6">Quick Actions</h2>
+				<h2 class="font-bold text-xl mb-1">Options</h2>
 				<div class="flex flex-col mb-1 w-full gap-4 mt-2">
-					<div class="flex flex-col gap-4 w-fit">
-						<h3>Set all formats</h3>
+					<div class="flex flex-col gap-3 w-fit">
+						<h3>Set all target formats</h3>
 						<Dropdown
 							options={converter.supportedFormats}
 							onselect={(o) => {
@@ -191,18 +179,41 @@
 							}}
 						/>
 					</div>
-					<div class="flex gap-4">
-						<button onclick={convertAll} class="btn flex-grow"
-							>Convert{files.files.length > 1
-								? " All"
-								: ""}</button
-						>
-						<button onclick={downloadAll} class="btn flex-grow"
-							>Download{files.files.length > 1
-								? " All"
-								: ""}</button
-						>
+				</div>
+
+				<h2 class="font-bold text-base mb-1 mt-6">Advanced</h2>
+				<div class="flex flex-col gap-4 mt-2">
+					<div class="flex flex-col gap-3 w-fit">
+						<h3>Converter backend</h3>
+						<Dropdown
+							options={converters.map(
+								(converter) => converter.name,
+							)}
+							bind:selected={converterName}
+						/>
 					</div>
+				</div>
+
+				<div class="flex gap-4 mt-8">
+					<button
+						onclick={convertAll}
+						class={clsx("btn flex-grow", {
+							"btn-highlight": !files.files.find((i) => i.result),
+						})}
+						>Convert{files.files.length > 1 ? " All" : ""}</button
+					>
+					<button
+						onclick={() => downloadAll}
+						class={clsx("btn flex-grow", {
+							"opacity-50 pointer-events-none": files.files.find(
+								(i) => !i.result,
+							),
+							"btn-highlight": !files.files.find(
+								(i) => !i.result,
+							),
+						})}
+						>Download{files.files.length > 1 ? " All" : ""}</button
+					>
 				</div>
 			</div>
 			{#each reversed as file, i (file.id)}
@@ -235,7 +246,15 @@
 							class="flex items-center justify-between w-full z-50 relative"
 						>
 							<div
-								class="py-2 px-3 bg-background text-foreground rounded-xl"
+								class={clsx(
+									"py-2 px-3 rounded-xl transition-colors duration-300",
+									{
+										"bg-accent-background text-accent-foreground":
+											file.result,
+										"bg-background text-foreground":
+											!file.result,
+									},
+								)}
 							>
 								{file.file.name}
 							</div>
