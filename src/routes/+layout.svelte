@@ -16,7 +16,7 @@
 	}>({
 		Upload: "/",
 		[files.files.length > 0
-			? `Convert ${files.files.length} file${files.files.length > 1 ? "s" : ""}`
+			? `Convert (${files.files.length})`
 			: `Convert`]: "/convert",
 		About: "/about",
 	});
