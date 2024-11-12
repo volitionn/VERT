@@ -43,7 +43,7 @@
 					blurMultiplier: 16,
 				}}
 				class={clsx(
-					"h-16 pl-4 pr-2 flex relative items-center w-full border-2 border-solid border-foreground-muted-alt rounded-xl",
+					"h-16 px-3 flex relative items-center w-full border-2 border-solid border-foreground-muted-alt rounded-xl",
 					{
 						"initial-fade": !finisheds[i],
 					},
@@ -51,10 +51,11 @@
 				style="--delay: {i *
 					50}ms; --transition: {transition}; --duration: {duration}ms;"
 			>
-				<div class="flex items-center w-full z-50 relative">
+				<div
+					class="flex items-center justify-between w-full z-50 relative"
+				>
 					<div
-						class="flex items-center flex-grow"
-						style="text-shadow: 0px 0px 6px white, 0px 0px 12px white"
+						class="py-2 px-3 bg-background text-foreground rounded-xl"
 					>
 						{file.file.name}
 					</div>
