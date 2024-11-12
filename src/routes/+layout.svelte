@@ -44,7 +44,7 @@
 
 <div
 	role="main"
-	class="w-full h-full flex items-center p-8 flex-col gap-16"
+	class="w-full h-full flex items-center p-2 flex-col gap-16"
 	ondragenter={maybeNavToHome}
 >
 	<div
