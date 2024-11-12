@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
+	import { transition } from "$lib/animation";
 	import Uploader from "$lib/components/functional/Uploader.svelte";
 	import { converters } from "$lib/converters";
 	import { files } from "$lib/store/index.svelte";
@@ -95,19 +96,24 @@
 	</li>
 {/snippet}
 
-<div class="[@media(max-height:768px)]:block mt-10">
+<div class="[@media(max-height:768px)]:block mt-10 picker-fly">
 	<Uploader bind:files={ourFiles} onupload={runUpload} />
 </div>
 
 <div class="text-center mt-20">
-	<h1 class="text-3xl font-display">
+	<h1 class="text-3xl font-display header-fly-in">
 		Free, fast, and awesome file converting
 	</h1>
 	<div class="flex justify-center mt-10">
 		<div class="grid gap-4">
-			{@render sellingPoint("Very fast, all processing done on device")}
+			<!-- {@render sellingPoint("Very fast, all processing done on device")}
 			{@render sellingPoint("No ads, and open source")}
-			{@render sellingPoint("Beautiful and straightforward UI")}
+			{@render sellingPoint("Beautiful and straightforward UI")} -->
+			{#each ["Very fast, all processing done on device", "No ads, and open source", "Beautiful and straightforward UI"] as text, i}
+				<div class="fly-in" style="--delay: {i * 50}ms;">
+					{@render sellingPoint(text)}
+				</div>
+			{/each}
 		</div>
 	</div>
 </div>
@@ -116,5 +122,59 @@
 	/* for this page specifically */
 	:global(html, body) {
 		height: 100%;
+	}
+
+	@keyframes fly-in {
+		from {
+			opacity: 0;
+			transform: translateY(50px);
+			filter: blur(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+			filter: blur(0);
+		}
+	}
+
+	@keyframes picker-fly {
+		from {
+			opacity: 0;
+			transform: translateY(48px);
+			filter: blur(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+			filter: blur(0);
+		}
+	}
+
+	@keyframes header-fly-in {
+		from {
+			opacity: 0;
+			transform: translateY(30px) scale(0.9);
+			filter: blur(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+			filter: blur(0);
+		}
+	}
+
+	.header-fly-in {
+		animation: header-fly-in var(--transition) 750ms forwards;
+		opacity: 0;
+	}
+
+	.fly-in {
+		animation: fly-in var(--transition) 750ms var(--delay) forwards;
+		opacity: 0;
+	}
+
+	.picker-fly {
+		animation: picker-fly var(--transition) 750ms forwards;
+		opacity: 0;
 	}
 </style>
