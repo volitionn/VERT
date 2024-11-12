@@ -18,6 +18,8 @@
 
 	let converterName = $state(converters[0].name);
 
+	let converter = $derived(converters.find((c) => c.name === converterName))!;
+
 	onMount(() => {
 		finisheds.forEach((_, i) => {
 			const duration = 750 + i * 50 - 32;
@@ -176,7 +178,7 @@
 					<div class="flex flex-col gap-4 w-fit">
 						<h3>Set all formats</h3>
 						<Dropdown
-							options={converters[0].supportedFormats}
+							options={converter.supportedFormats}
 							onselect={(o) => {
 								files.conversionTypes = Array.from(
 									{ length: files.files.length },
@@ -238,7 +240,7 @@
 								{file.file.name}
 							</div>
 							<div class="flex items-center gap-3 flex-shrink-0">
-								{#if converters[0].supportedFormats.includes(file.from)}
+								{#if converter.supportedFormats.includes(file.from)}
 									<span>from</span>
 									<span
 										class="py-2 px-3 font-display bg-foreground text-background rounded-xl"
@@ -246,14 +248,14 @@
 									>
 									<span>to</span>
 									<!-- <select bind:value={files.conversionTypes[i]}>
-									{#each converters[0].supportedFormats as conversionType}
+									{#each converter.supportedFormats as conversionType}
 										<option value={conversionType}
 											>{conversionType}</option
 										>
 									{/each}
 								</select> -->
 									<Dropdown
-										options={converters[0].supportedFormats}
+										options={converter.supportedFormats}
 										bind:selected={files.conversionTypes[i]}
 										onselect={() => {
 											file.result = null;
@@ -282,7 +284,7 @@
 								</button>
 							</div>
 						</div>
-						{#if converters[0].supportedFormats.includes(file.from)}
+						{#if converter.supportedFormats.includes(file.from)}
 							<!-- god knows why, but setting opacity > 0.98 causes a z-ordering issue in firefox ??? -->
 							<div
 								class="absolute top-0 -z-50 left-0 w-full h-full rounded-[10px] overflow-hidden opacity-[0.98]"
