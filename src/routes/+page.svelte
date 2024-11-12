@@ -53,9 +53,7 @@
 	// };
 </script>
 
-<div
-	class="flex w-full h-full items-center justify-center pb-32 [@media(max-height:768px)]:block"
->
+<div class="[@media(max-height:768px)]:block mt-32">
 	<Uploader bind:files={ourFiles} onupload={runUpload} />
 </div>
 
