@@ -24,7 +24,7 @@
 
 	onMount(() => {
 		finisheds.forEach((_, i) => {
-			const duration = 750 + i * 50 - 32;
+			const duration = 575 + i * 50 - 32;
 			setTimeout(() => {
 				finisheds[i] = true;
 				console.log(`finished ${i}`);
@@ -240,7 +240,6 @@
 						easing: quintOut,
 						blurMultiplier: 16,
 					}}
-					style="--transition: ease-in-out;"
 				>
 					<div
 						class={clsx(
@@ -249,9 +248,8 @@
 								"initial-fade": !finisheds[i],
 							},
 						)}
-						style="--delay: {i *
-							50}ms; --transition: {transition}; --duration: {duration}ms; z-index: {files
-							.files.length - i}; border: solid 3px {file.result
+						style="--delay: {i * 50}ms; z-index: {files.files
+							.length - i}; border: solid 3px {file.result
 							? 'var(--accent-bg)'
 							: 'var(--fg-muted-alt)'}; transition: border 1000ms ease;"
 					>
@@ -382,8 +380,7 @@
 	}
 
 	.initial-fade {
-		animation: initial-transition 750ms var(--delay) ease-out;
-		animation-timing-function: var(--transition);
+		animation: initial-transition 600ms var(--delay) var(--transition);
 		opacity: 0;
 	}
 
@@ -393,7 +390,6 @@
 	}
 
 	.finished-anim {
-		animation: finished-animation 750ms;
-		animation-timing-function: var(--transition);
+		animation: finished-animation 750ms var(--transition);
 	}
 </style>
