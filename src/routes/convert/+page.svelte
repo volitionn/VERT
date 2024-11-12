@@ -205,7 +205,7 @@
 						>Convert{files.files.length > 1 ? " All" : ""}</button
 					>
 					<button
-						onclick={() => downloadAll}
+						onclick={downloadAll}
 						class={clsx("btn flex-grow", {
 							"opacity-50 pointer-events-none": disabled,
 							"btn-highlight": !disabled,
