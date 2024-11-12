@@ -20,6 +20,7 @@ const handleMessage = async (
 			if (!message.to.startsWith(".")) message.to = `.${message.to}`;
 			const image = vips.Image.newFromBuffer(message.input.buffer);
 			const output = image.writeToBuffer(message.to);
+			image.delete();
 			return {
 				type: "finished",
 				output: {
