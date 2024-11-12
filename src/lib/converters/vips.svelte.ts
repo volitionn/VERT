@@ -10,22 +10,22 @@ export class VipsConverter extends Converter {
 	public name = "libvips";
 	public ready = $state(false);
 	public supportedFormats = [
+		".png",
+		".jpeg",
+		".jpg",
+		".webp",
 		".gif",
 		".hdr",
 		".jpe",
-		".jpeg",
-		".jpg",
 		".mat",
 		".pbm",
 		".pfm",
 		".pgm",
-		".png",
 		".pnm",
 		".ppm",
 		".raw",
 		".tif",
 		".tiff",
-		".webp",
 	];
 
 	constructor() {

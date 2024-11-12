@@ -5,14 +5,23 @@ import { browser } from "$app/environment";
 import type { WorkerMessage, OmitBetterStrict } from "$lib/types";
 import { MagickFormat } from "@imagemagick/magick-wasm";
 
+const sortFirst = [".png", ".jpeg", ".jpg", ".webp", ".gif"];
+
 export class MagickConverter extends Converter {
 	private worker: Worker = browser ? new MagickWorker() : null!;
 	private id = 0;
 	public name = "imagemagick";
 	public ready = $state(false);
-	public supportedFormats = Object.keys(MagickFormat).map(
-		(key) => `.${key.toLowerCase()}`,
-	);
+	public supportedFormats = Object.keys(MagickFormat)
+		.map((key) => `.${key.toLowerCase()}`)
+		.sort((a, b) => {
+			const aIndex = sortFirst.indexOf(a);
+			const bIndex = sortFirst.indexOf(b);
+			if (aIndex === -1 && bIndex === -1) return a.localeCompare(b);
+			if (aIndex === -1) return 1;
+			if (bIndex === -1) return -1;
+			return aIndex - bIndex;
+		});
 
 	constructor() {
 		super();
