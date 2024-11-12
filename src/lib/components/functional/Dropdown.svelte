@@ -15,7 +15,6 @@
 
 	let open = $state(false);
 	let isUp = $state(false);
-	let selectedWidth = $state(100 - 64);
 	let dropdown = $state<HTMLDivElement>();
 
 	const toggle = () => {
@@ -49,7 +48,6 @@
 
 <div class="relative" bind:this={dropdown}>
 	<button
-		style="width: {selectedWidth + 64}px; transition: width 100ms ease;"
 		class="font-display justify-between overflow-hidden relative cursor-pointer px-3 border-2 border-solid flex items-center bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none"
 		onclick={toggle}
 	>
@@ -57,7 +55,6 @@
 		<div class="grid grid-cols-1 grid-rows-1 w-fit">
 			{#key selected}
 				<p
-					bind:clientWidth={selectedWidth}
 					in:blur={{
 						duration,
 						easing: quintOut,
