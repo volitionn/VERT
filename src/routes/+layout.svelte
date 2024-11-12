@@ -104,7 +104,7 @@
 		</div>
 	</div>
 	<div
-		class="w-full max-w-screen-lg h-full grid grid-cols-1 grid-rows-1 relative pb-20"
+		class="w-full max-w-screen-lg h-full grid grid-cols-1 grid-rows-1 relative"
 	>
 		{#key data.pathname}
 			<div class="w-full h-full">
@@ -137,7 +137,9 @@
 						},
 					}}
 				>
-					{@render children()}
+					<div class="pb-20">
+						{@render children()}
+					</div>
 				</div>
 			</div>
 		{/key}

@@ -121,7 +121,6 @@
 				{/if}
 			</div>
 		{/each}
-		<div class="w-full h-4 flex-shrink-0"></div>
 	</div>
 </div>
 
