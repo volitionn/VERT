@@ -25,18 +25,30 @@
 	const linkIndex = $derived(
 		Object.keys(links).findIndex((link) => links[link] === data.pathname),
 	);
+
+	const maybeNavToHome = (e: DragEvent) => {
+		if (e.dataTransfer?.types.includes("Files")) {
+			e.preventDefault();
+			goto("/");
+		}
+	};
 </script>
 
-<div class="w-full h-full flex items-center pt-48 flex-col gap-10">
+<div
+	role="main"
+	class="w-full h-full flex items-center p-8 flex-col gap-8"
+	ondragenter={maybeNavToHome}
+>
 	<div
-		class="w-full max-w-screen-lg p-1 border-solid border-2 rounded-2xl border-foreground-muted-alt grid"
-		style="grid-template-columns: auto 1fr"
+		class="w-full max-w-screen-lg p-1 border-solid border-2 rounded-2xl border-foreground-muted-alt flex"
 	>
-		<div
-			class="px-4 m-1 mr-3 flex items-center bg-accent-background fill-accent-foreground rounded-xl"
-		>
-			<div class="h-6">
-				<Logo />
+		<div class="p-1">
+			<div
+				class="px-4 relative w-full h-full mr-3 justify-center items-center bg-accent-background fill-accent-foreground rounded-xl md:flex hidden"
+			>
+				<div class="h-6 items-center flex justify-center">
+					<Logo />
+				</div>
 			</div>
 		</div>
 
@@ -53,7 +65,7 @@
 			></div>
 			{#each Object.entries(links) as [name, link] (link)}
 				<button
-					class="w-1/2 h-full flex items-center justify-center rounded-xl relative font-display overflow-hidden"
+					class="w-1/2 px-2 h-full flex items-center justify-center rounded-xl relative font-display overflow-hidden"
 					onclick={() => {
 						const keys = Object.keys(links);
 						const currentIndex = keys.findIndex(
@@ -90,9 +102,11 @@
 			{/each}
 		</div>
 	</div>
-	<div class="w-full max-w-screen-lg grid grid-cols-1 grid-rows-1 relative">
+	<div
+		class="w-full max-w-screen-lg h-full grid grid-cols-1 grid-rows-1 relative"
+	>
 		{#key data.pathname}
-			<div class="w-full">
+			<div class="w-full h-full">
 				<div
 					class="absolute top-0 left-0 w-full h-full flex justify-center"
 					in:blur={{

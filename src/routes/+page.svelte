@@ -4,39 +4,58 @@
 	import { converters } from "$lib/converters";
 	import { files } from "$lib/store/index.svelte";
 
-	const convertAllFiles = async () => {
-		const promises = files.files?.map(async (file, i) => {
-			let conversionType = files.conversionTypes[i];
-			const converter = converters[0];
-			const convertedFile = await converter.convert(
-				{
-					name: file.name,
-					buffer: await file.arrayBuffer(),
-				},
-				conversionType,
-			);
-			files.downloadFns[i] = () => {
-				const url = URL.createObjectURL(
-					new Blob([convertedFile.buffer]),
-				);
-				const a = document.createElement("a");
-				a.href = url;
-				if (conversionType.startsWith("."))
-					conversionType = conversionType.slice(1);
-				a.download = `${file.name}.${conversionType}`;
-				a.target = "_self";
-				a.click();
-				URL.revokeObjectURL(url);
-			};
-		});
-		if (promises) await Promise.all(promises);
+	let ourFiles = $state<File[]>();
+
+	const runUpload = () => {
+		files.files = [
+			...files.files,
+			...(ourFiles || []).map((f) => ({
+				file: f,
+				to: converters[0].supportedFormats[0],
+				blobUrl: URL.createObjectURL(f),
+			})),
+		];
+
+		ourFiles = [];
+
+		if (files.files.length > 0 && !files.beenToConverterPage)
+			goto("/convert");
 	};
+
+	// const convertAllFiles = async () => {
+	// 	const promises = files.files?.map(async (file, i) => {
+	// 		let conversionType = files.conversionTypes[i];
+	// 		const converter = converters[0];
+	// 		const convertedFile = await converter.convert(
+	// 			{
+	// 				name: file.name,
+	// 				buffer: await file.arrayBuffer(),
+	// 			},
+	// 			conversionType,
+	// 		);
+	// 		files.downloadFns[i] = () => {
+	// 			const url = URL.createObjectURL(
+	// 				new Blob([convertedFile.buffer]),
+	// 			);
+	// 			const a = document.createElement("a");
+	// 			a.href = url;
+	// 			if (conversionType.startsWith("."))
+	// 				conversionType = conversionType.slice(1);
+	// 			a.download = `${file.name}.${conversionType}`;
+	// 			a.target = "_self";
+	// 			a.click();
+	// 			URL.revokeObjectURL(url);
+	// 		};
+	// 	});
+	// 	if (promises) await Promise.all(promises);
+	// };
 </script>
 
-<Uploader
-	bind:files={files.files}
-	onupload={() => files.files.length > 0 && goto("/convert")}
-/>
+<div
+	class="flex w-full h-full items-center justify-center pb-32 [@media(max-height:768px)]:block"
+>
+	<Uploader bind:files={ourFiles} onupload={runUpload} />
+</div>
 
 <style>
 	/* for this page specifically */

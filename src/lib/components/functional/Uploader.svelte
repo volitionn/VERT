@@ -55,6 +55,7 @@
 		if (!event.dataTransfer) return;
 		if (!files) files = Array.from(event.dataTransfer.files);
 		else files.push(...Array.from(event.dataTransfer.files));
+		onupload?.();
 		return true;
 	}
 
