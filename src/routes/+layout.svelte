@@ -108,7 +108,7 @@
 		{#key data.pathname}
 			<div class="w-full h-full">
 				<div
-					class="absolute top-0 left-0 w-full h-full flex justify-center"
+					class="absolute top-0 left-0 w-full h-full"
 					in:blur={{
 						duration,
 						easing: quintOut,
