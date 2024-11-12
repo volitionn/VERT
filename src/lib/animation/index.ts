@@ -29,6 +29,8 @@ const choose = (
 			? outValue
 			: defaultValue;
 
+type Combination<T extends string, U extends string> = `${T} ${U}`;
+
 export const blur = (
 	_: HTMLElement,
 	config:
@@ -50,6 +52,10 @@ export const blur = (
 				};
 				delay: number;
 				opacity: boolean;
+				origin: Combination<
+					"top" | "bottom" | "left" | "right" | "center",
+					"top" | "bottom" | "left" | "right" | "center"
+				>;
 		  }>
 		| undefined,
 	dir: {
@@ -120,7 +126,7 @@ export const blur = (
 				: ``;
 			return `filter: blur(${(1 - t) * (config?.blurMultiplier || 1)}px); opacity: ${config?.opacity ? t : 1}; transform: ${
 				translate
-			};`;
+			}; ${config?.origin ? `transform-origin: ${config.origin};` : ""}`;
 		},
 		easing: config?.easing,
 	};

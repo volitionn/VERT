@@ -24,3 +24,13 @@ body {
 	@apply text-foreground bg-background font-body overflow-x-hidden;
 	width: 100vw;
 }
+
+@layer components {
+	select {
+		@apply appearance-none;
+	}
+
+	.btn {
+		@apply font-display flex items-center justify-center overflow-hidden relative cursor-pointer px-4 border-2 border-solid bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none hover:scale-105 transition-transform duration-200 active:scale-95;
+	}
+}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { blur, duration, flip, transition } from "$lib/animation";
+	import Dropdown from "$lib/components/functional/Dropdown.svelte";
 	import ProgressiveBlur from "$lib/components/visual/effects/ProgressiveBlur.svelte";
 	import { converters } from "$lib/converters";
 	import { files } from "$lib/store/index.svelte";
@@ -7,12 +8,15 @@
 	import { XIcon } from "lucide-svelte";
 	import { onMount } from "svelte";
 	import { quintOut } from "svelte/easing";
+	import { downloadZip } from "client-zip";
 
 	const reversed = $derived(files.files.slice().reverse());
 
 	let finisheds = $state(
 		Array.from({ length: files.files.length }, () => false),
 	);
+
+	let converterName = $state(converters[0].name);
 
 	onMount(() => {
 		finisheds.forEach((_, i) => {
@@ -23,6 +27,119 @@
 			}, duration);
 		});
 	});
+
+	const convertAll = async () => {
+		// for (let i = 0; i < files.files.length; i++) {
+		// 	const file = files.files[i];
+		// 	const to = files.conversionTypes[i];
+		// 	const converter = converters.find(
+		// 		(c) => c.name === files.conversionTypes[i],
+		// 	);
+		// 	if (!converter) {
+		// 		console.error("Converter not found");
+		// 		continue;
+		// 	}
+		// 	const converted = await converter.convert({
+		// 		name: file.file.name,
+		// 		buffer: await file.file.arrayBuffer(),
+		// 	}, to);
+		// 	files.files[i] = {
+		// 		...file,
+		// 		file: new File([converted.buffer], file.file.name, {
+		// 			type: file.file.type,
+		// 		}),
+		// 		blobUrl: URL.createObjectURL(new Blob([converted.buffer], { type: file.file.type })),
+		// 	};
+		// }
+
+		const promises: Promise<void>[] = [];
+		for (let i = 0; i < files.files.length; i++) {
+			const file = files.files[i];
+			const to = files.conversionTypes[i];
+			const converter = converters.find((c) => c.name === converterName);
+			if (!converter) {
+				console.error("Converter not found");
+				continue;
+			}
+			promises.push(
+				(async () => {
+					const converted = await converter.convert(
+						{
+							name: file.file.name,
+							buffer: await file.file.arrayBuffer(),
+						},
+						to,
+					);
+					files.files[i] = {
+						...file,
+						result: {
+							...converted,
+							blobUrl: URL.createObjectURL(
+								new Blob([converted.buffer], {
+									type: file.file.type,
+								}),
+							),
+							animating: true,
+						},
+					};
+					await new Promise((r) => setTimeout(r, 750));
+					if (
+						files.files[i].result !== null &&
+						files.files[i].result !== undefined
+					)
+						files.files[i].result!.animating = false;
+				})(),
+			);
+		}
+
+		await Promise.all(promises);
+		console.log("done");
+	};
+
+	const downloadAll = async () => {
+		const dlFiles: any[] = [];
+		for (let i = 0; i < files.files.length; i++) {
+			const file = files.files[i];
+			const result = file.result;
+			if (!result) {
+				console.error("No result found");
+				continue;
+			}
+			dlFiles.push({
+				name:
+					file.file.name.replace(/\.[^/.]+$/, "") +
+					files.conversionTypes[i],
+				lastModified: Date.now(),
+				input: result.buffer,
+			});
+		}
+		if (files.files.length === 0) return;
+		if (files.files.length === 1) {
+			// download the image only
+			const blob = URL.createObjectURL(
+				new Blob([dlFiles[0].input], {
+					type: files.files[0].file.type,
+				}),
+			);
+			const a = document.createElement("a");
+			a.href = blob;
+			a.download = `${new Date().toISOString()}-vert-converted${
+				files.conversionTypes[0]
+			}`;
+			a.click();
+			URL.revokeObjectURL(blob);
+			a.remove();
+			return;
+		}
+		const blob = await downloadZip(dlFiles, "converted.zip").blob();
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = `${new Date().toISOString()}-vert-converted.zip`;
+		a.click();
+		URL.revokeObjectURL(url);
+		a.remove();
+	};
 </script>
 
 <div class="grid grid-cols-1 grid-rows-1 w-full">
@@ -30,98 +147,168 @@
 		<p class="text-foreground-muted col-start-1 row-start-1 text-center">
 			No files uploaded. Head to the Upload tab to begin!
 		</p>
-	{/if}
-	<div
-		class="flex flex-col gap-4 w-full items-center col-start-1 row-start-1"
-	>
-		{#each reversed as file, i (file.id)}
+	{:else}
+		<div
+			class="flex flex-col gap-4 w-full items-center col-start-1 row-start-1"
+			out:blur={{
+				duration,
+				easing: quintOut,
+				blurMultiplier: 16,
+			}}
+		>
 			<div
-				animate:flip={{ duration, easing: quintOut }}
-				out:blur={{
-					duration,
-					easing: quintOut,
-					blurMultiplier: 16,
-				}}
-				class={clsx(
-					"h-16 px-3 flex relative flex-shrink-0 items-center w-full border-2 border-solid border-foreground-muted-alt rounded-xl",
-					{
-						"initial-fade": !finisheds[i],
-					},
-				)}
-				style="--delay: {i *
-					50}ms; --transition: {transition}; --duration: {duration}ms;"
+				class="w-full px-4 py-3 max-w-screen-lg p-1 border-solid flex-col border-2 rounded-2xl border-foreground-muted-alt flex flex-shrink-0"
 			>
-				<div
-					class="flex items-center justify-between w-full z-50 relative"
-				>
-					<div
-						class="py-2 px-3 bg-background text-foreground rounded-xl"
-					>
-						{file.file.name}
-					</div>
-					<div class="flex items-center gap-3 flex-shrink-0">
-						{#if converters[0].supportedFormats.includes(file.from)}
-							<span>from</span>
-							<span
-								class="py-2 px-3 font-display bg-foreground text-background rounded-xl"
-								>{file.from}</span
-							>
-							<span>to</span>
-							<select
-								class="font-display border-2 border-solid border-foreground-muted-alt rounded-xl p-2 focus:!outline-none"
-								bind:value={files.conversionTypes[i]}
-							>
-								{#each converters[0].supportedFormats as conversionType}
-									<option value={conversionType}
-										>{conversionType}</option
-									>
-								{/each}
-							</select>
-						{:else}
-							<span
-								class="py-2 px-3 font-display bg-foreground-failure text-white rounded-xl"
-								>{file.from}</span
-							>
-
-							<span class="text-foreground-failure">
-								is not supported!
-							</span>
-						{/if}
-						<button
-							onclick={() => {
-								// delete the file from the list
-								files.files = files.files.filter(
-									(f) => f !== file,
-								);
-							}}
-							class="ml-2 mr-1"
-						>
-							<XIcon size="18" />
-						</button>
+				<h2 class="font-bold text-xl mb-3">Options</h2>
+				<div class="flex flex-col gap-4 mt-2">
+					<div class="w-fit flex flex-col items-center gap-2">
+						<h3 class="mr-5">Converter</h3>
+						<Dropdown
+							options={converters.map(
+								(converter) => converter.name,
+							)}
+							bind:selected={converterName}
+						/>
 					</div>
 				</div>
-				{#if converters[0].supportedFormats.includes(file.from)}
-					<!-- god knows why, but setting opacity > 0.98 causes a z-ordering issue in firefox ??? -->
+				<h2 class="font-bold text-xl mb-3 mt-6">Quick Actions</h2>
+				<div class="flex flex-col mb-1 w-full gap-4 mt-2">
+					<div class="flex flex-col gap-4 w-fit">
+						<h3>Set all formats</h3>
+						<Dropdown
+							options={converters[0].supportedFormats}
+							onselect={(o) => {
+								files.conversionTypes = Array.from(
+									{ length: files.files.length },
+									() => o,
+								);
+
+								files.files.forEach((file) => {
+									file.result = null;
+								});
+							}}
+						/>
+					</div>
+					<div class="flex gap-4">
+						<button onclick={convertAll} class="btn flex-grow"
+							>Convert{files.files.length > 1
+								? " All"
+								: ""}</button
+						>
+						<button onclick={downloadAll} class="btn flex-grow"
+							>Download{files.files.length > 1
+								? " All"
+								: ""}</button
+						>
+					</div>
+				</div>
+			</div>
+			{#each reversed as file, i (file.id)}
+				<div
+					class={clsx("w-full rounded-xl", {
+						"finished-anim": file.result?.animating,
+					})}
+					animate:flip={{ duration, easing: quintOut }}
+					out:blur={{
+						duration,
+						easing: quintOut,
+						blurMultiplier: 16,
+					}}
+					style="--transition: ease-in-out;"
+				>
 					<div
-						class="absolute top-0 -z-50 left-0 w-full h-full rounded-[10px] overflow-hidden opacity-[0.98]"
+						class={clsx(
+							"h-16 px-3 flex relative flex-shrink-0 items-center w-full rounded-xl",
+							{
+								"initial-fade": !finisheds[i],
+							},
+						)}
+						style="--delay: {i *
+							50}ms; --transition: {transition}; --duration: {duration}ms; z-index: {files
+							.files.length - i}; border: solid 3px {file.result
+							? 'var(--accent-bg)'
+							: 'var(--fg-muted-alt)'}; transition: border 1000ms ease;"
 					>
 						<div
-							class="bg-cover bg-center w-full h-full"
-							style="background-image: url({file.blobUrl});"
-						></div>
-						<div class="absolute top-0 right-0 w-5/6 h-full">
-							<ProgressiveBlur
-								direction="right"
-								endIntensity={128}
-								iterations={6}
-								fadeTo="rgba(255, 255, 255, 0.8)"
-							/>
+							class="flex items-center justify-between w-full z-50 relative"
+						>
+							<div
+								class="py-2 px-3 bg-background text-foreground rounded-xl"
+							>
+								{file.file.name}
+							</div>
+							<div class="flex items-center gap-3 flex-shrink-0">
+								{#if converters[0].supportedFormats.includes(file.from)}
+									<span>from</span>
+									<span
+										class="py-2 px-3 font-display bg-foreground text-background rounded-xl"
+										>{file.from}</span
+									>
+									<span>to</span>
+									<!-- <select bind:value={files.conversionTypes[i]}>
+									{#each converters[0].supportedFormats as conversionType}
+										<option value={conversionType}
+											>{conversionType}</option
+										>
+									{/each}
+								</select> -->
+									<Dropdown
+										options={converters[0].supportedFormats}
+										bind:selected={files.conversionTypes[i]}
+										onselect={() => {
+											file.result = null;
+										}}
+									/>
+								{:else}
+									<span
+										class="py-2 px-3 font-display bg-foreground-failure text-white rounded-xl"
+										>{file.from}</span
+									>
+
+									<span class="text-foreground-failure">
+										is not supported!
+									</span>
+								{/if}
+								<button
+									onclick={() => {
+										// delete the file from the list
+										files.files = files.files.filter(
+											(f) => f !== file,
+										);
+									}}
+									class="ml-2 mr-1"
+								>
+									<XIcon size="18" />
+								</button>
+							</div>
 						</div>
+						{#if converters[0].supportedFormats.includes(file.from)}
+							<!-- god knows why, but setting opacity > 0.98 causes a z-ordering issue in firefox ??? -->
+							<div
+								class="absolute top-0 -z-50 left-0 w-full h-full rounded-[10px] overflow-hidden opacity-[0.98]"
+							>
+								<div
+									class="bg-cover bg-center w-full h-full"
+									style="background-image: url({file.blobUrl});"
+								></div>
+								<div
+									class="absolute top-0 right-0 w-5/6 h-full"
+								>
+									<ProgressiveBlur
+										direction="right"
+										endIntensity={128}
+										iterations={6}
+										fadeTo="rgba(255, 255, 255, 0.8)"
+									/>
+								</div>
+							</div>
+						{/if}
 					</div>
-				{/if}
-			</div>
-		{/each}
-	</div>
+				</div>
+			{/each}
+			<div class="w-full h-4 flex-shrink-0"></div>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -139,6 +326,23 @@
 		}
 	}
 
+	@keyframes finished-animation {
+		0% {
+			transform: scale(1);
+			filter: blur(0);
+		}
+
+		50% {
+			transform: scale(1.02);
+			filter: blur(4px);
+		}
+
+		100% {
+			transform: scale(1);
+			filter: blur(0);
+		}
+	}
+
 	.initial-fade {
 		animation: initial-transition 750ms var(--delay) ease-out;
 		animation-timing-function: var(--transition);
@@ -148,5 +352,10 @@
 	.initial-fade.finished {
 		animation: none;
 		opacity: 1 !important;
+	}
+
+	.finished-anim {
+		animation: finished-animation 750ms;
+		animation-timing-function: var(--transition);
 	}
 </style>

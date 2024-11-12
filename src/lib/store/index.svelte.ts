@@ -1,3 +1,5 @@
+import type { IFile } from "$lib/types";
+
 class Files {
 	public files = $state<
 		{
@@ -6,6 +8,7 @@ class Files {
 			to: string;
 			blobUrl: string;
 			id: string;
+			result?: (IFile & { blobUrl: string; animating: boolean }) | null;
 		}[]
 	>([]);
 	public conversionTypes = $state<string[]>([]);

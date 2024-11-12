@@ -5,6 +5,10 @@ import type { IFile, OmitBetterStrict } from "$lib/types";
  */
 export class Converter {
 	/**
+	 * The public name of the converter.
+	 */
+	public name: string = "Unknown";
+	/**
 	 * List of supported formats.
 	 */
 	public supportedFormats: string[] = [];
