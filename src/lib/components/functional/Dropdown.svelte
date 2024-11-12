@@ -81,11 +81,16 @@
 							end: isUp ? -50 : 50,
 						},
 					}}
-					class="col-start-1 row-start-1"
+					class="col-start-1 row-start-1 text-left"
 				>
 					{selected}
 				</p>
 			{/key}
+			{#each options as option}
+				<p class="col-start-1 row-start-1 opacity-0">
+					{option}
+				</p>
+			{/each}
 		</div>
 		<ChevronDown
 			class="w-4 h-4 ml-4 mt-0.5 flex-shrink-0"
