@@ -36,20 +36,21 @@
 
 <div
 	role="main"
-	class="w-full h-full flex items-center p-8 flex-col gap-8"
+	class="w-full h-full flex items-center p-8 flex-col gap-16"
 	ondragenter={maybeNavToHome}
 >
 	<div
-		class="w-full max-w-screen-lg p-1 border-solid border-2 rounded-2xl border-foreground-muted-alt flex"
+		class="w-full max-w-screen-md p-1 border-solid border-2 rounded-2xl border-foreground-muted-alt flex"
 	>
 		<div class="p-1">
-			<div
+			<a
+				href="/"
 				class="px-3 relative w-full h-full mr-3 justify-center items-center bg-accent-background fill-accent-foreground rounded-xl md:flex hidden"
 			>
 				<div class="h-6 w-24 items-center flex justify-center">
 					<Logo />
 				</div>
-			</div>
+			</a>
 		</div>
 
 		<div
