@@ -31,6 +31,9 @@ body {
 	}
 
 	.btn {
-		@apply font-display flex items-center justify-center overflow-hidden relative cursor-pointer px-4 border-2 border-solid bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none hover:scale-105 transition-transform duration-200 active:scale-95;
+		@apply font-display flex items-center justify-center overflow-hidden relative cursor-pointer px-4 border-2 border-solid bg-background border-foreground-muted-alt rounded-xl p-2 focus:!outline-none hover:scale-105 active:scale-95 disabled:pointer-events-none disabled:opacity-50;
+		transition:
+			200ms ease transform,
+			200ms ease opacity;
 	}
 }

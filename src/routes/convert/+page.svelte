@@ -20,6 +20,8 @@
 
 	let converter = $derived(converters.find((c) => c.name === converterName))!;
 
+	let disabled = $derived(files.files.some((f) => !f.result));
+
 	onMount(() => {
 		finisheds.forEach((_, i) => {
 			const duration = 750 + i * 50 - 32;
@@ -197,7 +199,10 @@
 								? " All"
 								: ""}</button
 						>
-						<button onclick={downloadAll} class="btn flex-grow"
+						<button
+							onclick={downloadAll}
+							class="btn flex-grow"
+							{disabled}
 							>Download{files.files.length > 1
 								? " All"
 								: ""}</button
